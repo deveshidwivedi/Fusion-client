@@ -27,7 +27,7 @@ function InventoryDashboard() {
         radius="md"
         withBorder
         mb="md"
-        style={{ marginTop: "10px" }}
+        style={{ marginTop: "8px" }}
       >
         <Text size="xl" weight={700} mb="md">
           Inventory summary
