@@ -10,6 +10,7 @@ import ForgotPassword from "./pages/forgotPassword";
 import AcademicPage from "./Modules/Academic/index";
 import ValidateAuth from "./helper/validateauth";
 import InventoryDashboard from "./Modules/Inventory/components/inventoryDashboard";
+import Reports from "./Modules/Inventory/components/Reports";
 
 export default function App() {
   const location = useLocation();
@@ -55,6 +56,15 @@ export default function App() {
           element={
             <Layout>
               <Profile />
+            </Layout>
+          }
+        />
+
+        <Route
+          path="/Reports"
+          element={
+            <Layout>
+              <Reports />
             </Layout>
           }
         />
