@@ -95,6 +95,7 @@ const data = [
 export default function Reports() {
   const [selectedCategory, setSelectedCategory] = useState("CSE");
   const [sortOption, setSortOption] = useState("Last Updated");
+  const [checkedItems, setCheckedItems] = useState({});
 
   const categories = [
     { label: "CSE", value: "CSE" },
@@ -116,11 +117,23 @@ export default function Reports() {
       return 0;
     });
 
+  const handleCheckboxChange = (product) => {
+    setCheckedItems((prev) => ({
+      ...prev,
+      [product]: !prev[product],
+    }));
+  };
+
   const filteredRows = sortedData.map((item, index) => (
     <React.Fragment key={index}>
       <tr>
         <td style={{ textAlign: "center" }}>
-          <Checkbox size="sm" />
+          <Checkbox
+            size="sm"
+            style={{ marginLeft: "30px" }}
+            checked={!!checkedItems[item.product]}
+            onChange={() => handleCheckboxChange(item.product)}
+          />
         </td>
         <td style={{ fontSize: "16px", textAlign: "center", padding: "10px" }}>
           {item.product}
@@ -193,7 +206,7 @@ export default function Reports() {
             >
               Total Products
             </Text>
-            <Badge size="xl" color="orange">
+            <Badge size="xl" color="blue">
               1000
             </Badge>
           </div>
@@ -221,8 +234,12 @@ export default function Reports() {
                   border: "1px solid black",
                   width: "100px",
                   borderRadius: "5px",
+                  marginBottom: "10px",
                   backgroundColor:
-                    selectedCategory === category.value ? "blue" : "lightblue",
+                    selectedCategory === category.value
+                      ? "#1366D9"
+                      : "lightblue",
+                  marginRight: "1px",
                 }}
                 onClick={() => setSelectedCategory(category.label)}
               >
@@ -242,7 +259,7 @@ export default function Reports() {
                   { value: "Missing", label: "Missing" },
                 ]}
                 placeholder="Sort By"
-                style={{ width: "150px" }}
+                style={{ width: "140px" }}
               />
             </Group>
           </Tabs.List>
@@ -263,10 +280,15 @@ export default function Reports() {
             >
               <thead>
                 <tr>
-                  <th style={{ fontSize: "18px", textAlign: "center" }}>
+                  <th
+                    style={{
+                      fontSize: "18px",
+                      textAlign: "center",
+                      paddingBottom: "10px",
+                    }}
+                  >
                     Select
-                  </th>{" "}
-                  {/* Added a label */}
+                  </th>
                   <th
                     style={{
                       fontSize: "18px",
