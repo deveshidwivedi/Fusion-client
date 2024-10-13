@@ -15,7 +15,7 @@ const sections = ["Overall Inventory", "Hostel", "Reports"];
 // Create a map of components for each section
 const sectionComponents = {
   "Overall Inventory": InventoryDashboard,
-  Reports,
+  "Reports": Reports,
   // Add other components here for different sections if needed
   // 'My Fine': MyFineComponent,
   // 'Leave': LeaveComponent,
