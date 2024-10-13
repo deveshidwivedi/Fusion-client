@@ -61,7 +61,7 @@ export default function App() {
         />
 
         <Route
-          path="/inventory/reports"
+          path="/inventory/report"
           element={
             <Layout>
               <Reports />
