@@ -11,6 +11,7 @@ import AcademicPage from "./Modules/Academic/index";
 import ValidateAuth from "./helper/validateauth";
 import Reports from "./Modules/Inventory/components/Reports";
 import InventoryIndex from "./Modules/Inventory/components/InventoryIndex";
+import Btech from "./Modules/Inventory/components/Btech";
 
 export default function App() {
   const location = useLocation();
@@ -48,6 +49,15 @@ export default function App() {
           element={
             <Layout>
               <InventoryIndex />
+            </Layout>
+          }
+        />
+
+        <Route
+          path="/inventory/btech"
+          element={
+            <Layout>
+              <Btech />
             </Layout>
           }
         />

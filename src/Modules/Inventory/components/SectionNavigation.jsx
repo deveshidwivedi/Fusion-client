@@ -3,6 +3,7 @@ import { Group, Text, Box, Container } from "@mantine/core";
 import { CaretLeft, CaretRight } from "@phosphor-icons/react";
 import InventoryDashboard from "./inventoryDashboard";
 import Reports from "./Reports";
+import Btech from "./Btech";
 
 // Import InventoryDashboard (ensure the path is correct)
 
@@ -15,7 +16,8 @@ const sections = ["Overall Inventory", "Hostel", "Reports", "Btech", "Bdes"];
 // Create a map of components for each section
 const sectionComponents = {
   "Overall Inventory": InventoryDashboard,
-  "Reports": Reports,
+  Reports,
+  Btech,
   // Add other components here for different sections if needed
   // 'My Fine': MyFineComponent,
   // 'Leave': LeaveComponent,
