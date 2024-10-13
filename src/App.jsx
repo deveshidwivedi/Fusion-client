@@ -10,7 +10,7 @@ import ForgotPassword from "./pages/forgotPassword";
 import AcademicPage from "./Modules/Academic/index";
 import ValidateAuth from "./helper/validateauth";
 import Reports from "./Modules/Inventory/components/Reports";
-import InventoryIndex from "./Modules/Inventory/InventoryIndex";
+import InventoryIndex from "./Modules/Inventory/components/InventoryIndex";
 
 export default function App() {
   const location = useLocation();

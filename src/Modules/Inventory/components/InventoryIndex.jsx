@@ -1,6 +1,6 @@
 import React from "react";
 import { useMantineTheme } from "@mantine/core";
-import SectionNavigation from "./components/SectionNavigation";
+import SectionNavigation from "./SectionNavigation";
 
 function InventoryIndex() {
   const theme = useMantineTheme();
