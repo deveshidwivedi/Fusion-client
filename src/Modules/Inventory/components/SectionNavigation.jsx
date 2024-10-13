@@ -6,7 +6,7 @@ import Reports from "./Reports";
 
 // Import InventoryDashboard (ensure the path is correct)
 
-const sections = ["Overall Inventory", "Hostel", "Reports"];
+const sections = ["Overall Inventory", "Hostel", "Reports", "Btech", "Bdes"];
 
 // const subSections = {
 //   'Leave': ['Leave Form', 'Leave Status'],
