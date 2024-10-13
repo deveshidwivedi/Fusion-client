@@ -12,6 +12,7 @@ import ValidateAuth from "./helper/validateauth";
 import Reports from "./Modules/Inventory/components/Reports";
 import InventoryIndex from "./Modules/Inventory/components/InventoryIndex";
 import Btech from "./Modules/Inventory/components/Btech";
+import TransferProduct from "./Modules/Inventory/components/TransferProduct";
 
 export default function App() {
   const location = useLocation();
@@ -78,6 +79,15 @@ export default function App() {
             </Layout>
           }
         />
+         <Route
+          path="/inventory/transfer"
+          element={
+            <Layout>
+              <TransferProduct />
+            </Layout>
+          }
+        />
+
         <Route path="/accounts/login" element={<LoginPage />} />
         <Route path="/reset-password" element={<ForgotPassword />} />
       </Routes>
