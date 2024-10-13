@@ -162,7 +162,7 @@ export default function Reports() {
   ));
 
   return (
-    <Container>
+    <Container style={{ marginTop: "20px" }}>
       <Paper
         shadow="xs"
         p="lg"
