@@ -12,6 +12,9 @@ import {
   Button,
 } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
+import AddProduct from './AddProduct'; // Import the AddProduct component
+import "../styles/popupModal.css";
+
 
 const data = [
   {
@@ -96,6 +99,7 @@ const data = [
 export default function Inventory() {
   const [selectedCategory, setSelectedCategory] = useState("CSE");
   const [sortOption, setSortOption] = useState("Last Updated");
+  const [showAddProductModal, setShowAddProductModal] = useState(false); // State to control modal visibility
   const navigate = useNavigate();
 
   const categories = [
@@ -148,6 +152,13 @@ export default function Inventory() {
   const handleTransferClick = () => {
     navigate("/inventory/transfer");
   };
+  const openAddProductModal = () => {
+    setShowAddProductModal(true);  // Show the modal when "Add Product" is clicked
+  };
+
+  const closeAddProductModal = () => {
+    setShowAddProductModal(false);  // Close the modal when needed
+  };
 
   return (
     <Container>
@@ -158,7 +169,6 @@ export default function Inventory() {
         style={{
           backgroundColor: "rgba(255, 255, 255, 0.5)",
           borderRadius: "20px",
-          marginTop: "20px",
           marginBottom: "20px",
           padding: "30px",
         }}
@@ -200,12 +210,7 @@ export default function Inventory() {
               30252
             </Badge>
           </div>
-          <Button
-            color="blue"
-            size="lg"
-            style={{ marginLeft: "auto" }}
-            onClick={handleTransferClick}
-          >
+          <Button color="blue" size="lg" style={{ marginLeft: "auto" }} onClick={handleTransferClick}>
             Transfer Item
           </Button>
         </Group>
@@ -240,8 +245,12 @@ export default function Inventory() {
                 {category.label}
               </Tabs.Tab>
             ))}
-            <Button style={{ marginLeft: "auto" }}>Add Product</Button>
-            <Button style={{ marginLeft: "10px" }}>Filters</Button>
+          
+
+            <Button className="button-blue" style={{ marginLeft: "auto" }} onClick={openAddProductModal}>
+              Add Product
+            </Button>
+            <Button className="button-blue" style={{ marginLeft: "10px" }}>Filters</Button>
           </Tabs.List>
 
           <Group position="apart" style={{ marginBottom: "10px" }}>
@@ -331,6 +340,18 @@ export default function Inventory() {
           </Group>
         </Tabs>
       </Paper>
+    
+      {showAddProductModal && (
+        <>
+           <div className="overlay" onClick={closeAddProductModal}></div>
+           <div className="modal">
+             <button className="close-button" onClick={closeAddProductModal}>
+               X
+             </button>
+             <AddProduct /> 
+           </div>
+         </>
+       )}
     </Container>
   );
 }
