@@ -14,7 +14,6 @@ import InventoryIndex from "./Modules/Inventory/components/InventoryIndex";
 import Btech from "./Modules/Inventory/components/Btech";
 import TransferProduct from "./Modules/Inventory/components/TransferProduct";
 
-
 export default function App() {
   const location = useLocation();
   return (
@@ -89,7 +88,6 @@ export default function App() {
           }
         />
      
-
         <Route path="/accounts/login" element={<LoginPage />} />
         <Route path="/reset-password" element={<ForgotPassword />} />
       </Routes>
