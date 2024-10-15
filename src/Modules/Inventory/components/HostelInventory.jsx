@@ -212,6 +212,7 @@ export default function HostelInventory() {
                   fontSize: "15px",
                   padding: "12px",
                   border: "1px solid black",
+                  margin: "5px",
                   width: "120px",
                   borderRadius: "5px",
                   marginRight: "1px",
@@ -225,8 +226,8 @@ export default function HostelInventory() {
                 {category.label}
               </Tabs.Tab>
             ))}
-            <Button style={{ marginLeft: "auto" }}>Add Product</Button>
-            <Button style={{ marginLeft: "10px" }}>Filters</Button>
+            <Button style={{ margin: "5px 5px 10px 20px" }}>Add Product</Button>
+            <Button style={{ margin: "5px " }}>Filters</Button>
           </Tabs.List>
 
           <Group position="apart" style={{ marginBottom: "10px" }}>
