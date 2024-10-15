@@ -158,6 +158,7 @@ export default function Inventory() {
         style={{
           backgroundColor: "rgba(255, 255, 255, 0.5)",
           borderRadius: "20px",
+          marginTop: "20px",
           marginBottom: "20px",
           padding: "30px",
         }}
@@ -199,7 +200,12 @@ export default function Inventory() {
               30252
             </Badge>
           </div>
-          <Button color="blue" size="lg" style={{ marginLeft: "auto" }} onClick={handleTransferClick}>
+          <Button
+            color="blue"
+            size="lg"
+            style={{ marginLeft: "auto" }}
+            onClick={handleTransferClick}
+          >
             Transfer Item
           </Button>
         </Group>

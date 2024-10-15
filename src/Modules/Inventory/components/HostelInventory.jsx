@@ -139,7 +139,9 @@ export default function HostelInventory() {
   ));
 
   return (
-    <Container>
+    <Container style={{ marginBottom: "20px" }}>
+      {" "}
+      {/* Added marginBottom */}
       {/* Header Section with Badge Counts */}
       <Paper
         shadow="xs"
@@ -147,6 +149,7 @@ export default function HostelInventory() {
         style={{
           backgroundColor: "rgba(255, 255, 255, 0.5)",
           borderRadius: "20px",
+          marginTop: "20px",
           marginBottom: "20px",
           padding: "30px",
         }}
@@ -188,17 +191,11 @@ export default function HostelInventory() {
               30252
             </Badge>
           </div>
-          <Button
-            color="blue"
-            size="lg"
-            style={{ marginLeft: "auto" }}
-            // No action, same as "Add Product"
-          >
+          <Button color="blue" size="lg" style={{ marginLeft: "auto" }}>
             Transfer Product
           </Button>
         </Group>
       </Paper>
-
       {/* Tabs and Table */}
       <Paper
         shadow="xs"
@@ -313,9 +310,15 @@ export default function HostelInventory() {
             </Table>
           </div>
 
-          <Group style={{ marginTop: "20px", justifyContent: "space-between" }}>
-            <Button>Export</Button>
-            <Button>Print</Button>
+          <Group
+            style={{
+              marginTop: "20px",
+              justifyContent: "space-between",
+              marginBottom: "40px", // Added bottom margin here
+            }}
+          >
+            <Button>Export Data</Button>
+            <Button>Print Data</Button>
           </Group>
         </Tabs>
       </Paper>
