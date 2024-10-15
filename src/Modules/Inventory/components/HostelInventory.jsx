@@ -194,7 +194,7 @@ export default function HostelInventory() {
             style={{ marginLeft: "auto" }}
             // No action, same as "Add Product"
           >
-            Request Product
+            Transfer Product
           </Button>
         </Group>
       </Paper>
