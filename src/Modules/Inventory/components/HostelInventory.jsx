@@ -11,7 +11,6 @@ import {
   Select,
   Button,
 } from "@mantine/core";
-import { useNavigate } from "react-router-dom";
 
 const data = [
   {
@@ -89,7 +88,6 @@ const data = [
 export default function HostelInventory() {
   const [selectedCategory, setSelectedCategory] = useState("H1");
   const [sortOption, setSortOption] = useState("Last Updated");
-  const navigate = useNavigate();
 
   const categories = [
     { label: "H1", value: "H1" },
@@ -139,10 +137,6 @@ export default function HostelInventory() {
       )}
     </React.Fragment>
   ));
-
-  const handleRequestClick = () => {
-    navigate("/inventory/request");
-  };
 
   return (
     <Container>
@@ -198,9 +192,9 @@ export default function HostelInventory() {
             color="blue"
             size="lg"
             style={{ marginLeft: "auto" }}
-            onClick={handleRequestClick}
+            // No action, same as "Add Product"
           >
-            Request Product {/* Changed text here */}
+            Request Product
           </Button>
         </Group>
       </Paper>
