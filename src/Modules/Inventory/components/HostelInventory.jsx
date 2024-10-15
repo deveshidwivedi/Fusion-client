@@ -11,98 +11,90 @@ import {
   Select,
   Button,
 } from "@mantine/core";
-import { useNavigate } from "react-router-dom";
 
 const data = [
   {
-    product: "Computer",
-    quantity: 50,
-    price: 10000,
-    department: "CSE",
+    product: "Chairs",
+    quantity: 80,
+    price: 480,
+    department: "H1",
     lastUpdated: "29-03-2024",
   },
   {
-    product: "Peripherals",
+    product: "Tables",
     quantity: 50,
-    price: 500,
-    department: "CSE",
+    price: 1000,
+    department: "H1",
     lastUpdated: "29-03-2024",
   },
   {
-    product: "Projectors",
-    quantity: 50,
-    price: 15000,
-    department: "CSE",
+    product: "Lights",
+    quantity: 30,
+    price: 300,
+    department: "H3",
     lastUpdated: "14-03-2024",
   },
   {
-    product: "Wires",
-    quantity: 30,
-    price: 600,
-    department: "ECE",
-    lastUpdated: "26-03-2024",
-  },
-  {
-    product: "Voltmeter",
-    quantity: 30,
-    price: 1200,
-    department: "ECE",
+    product: "Bulbs",
+    quantity: 100,
+    price: 50,
+    department: "H3",
     lastUpdated: "26-03-2024",
   },
   {
     product: "Chairs",
     quantity: 80,
     price: 480,
-    department: "Mech",
+    department: "H4",
     lastUpdated: "29-03-2024",
   },
   {
-    product: "Lasers",
-    quantity: 140,
-    price: 900,
-    department: "SM",
-    lastUpdated: "04-03-2024",
+    product: "Tables",
+    quantity: 50,
+    price: 1000,
+    department: "H4",
+    lastUpdated: "29-03-2024",
   },
   {
-    product: "Boards",
-    quantity: 140,
-    price: 2050,
-    department: "SM",
-    lastUpdated: "04-03-2024",
-  },
-  {
-    product: "Drafts",
-    quantity: 5,
+    product: "Lights",
+    quantity: 30,
     price: 300,
-    department: "Design",
-    lastUpdated: "18-03-2024",
+    department: "Panini",
+    lastUpdated: "14-03-2024",
   },
   {
-    product: "Screens",
-    quantity: 5,
-    price: 3000,
-    department: "Design",
-    lastUpdated: "18-03-2024",
+    product: "Bulbs",
+    quantity: 100,
+    price: 50,
+    department: "Panini",
+    lastUpdated: "26-03-2024",
   },
   {
-    product: "Cables",
-    quantity: 80,
-    price: 80,
-    department: "Mech",
-    lastUpdated: "29-03-2024",
+    product: "Chairs",
+    quantity: 50,
+    price: 400,
+    department: "Maa Saraswati",
+    lastUpdated: "01-04-2024",
+  },
+  {
+    product: "Tables",
+    quantity: 20,
+    price: 600,
+    department: "Maa Saraswati",
+    lastUpdated: "02-04-2024",
   },
 ];
 
-export default function Inventory() {
-  const [selectedCategory, setSelectedCategory] = useState("CSE");
+export default function HostelInventory() {
+  const [selectedCategory, setSelectedCategory] = useState("H1");
   const [sortOption, setSortOption] = useState("Last Updated");
-  const navigate = useNavigate();
 
   const categories = [
-    { label: "CSE", value: "CSE" },
-    { label: "ECE", value: "ECE" },
-    { label: "Mech", value: "Mech" },
-    { label: "SM", value: "SM" },
+    { label: "H1", value: "H1" },
+    { label: "H3", value: "H3" },
+    { label: "H4", value: "H4" },
+    { label: "Panini", value: "Panini" },
+    { label: "Maa Saraswati", value: "Maa Saraswati" },
   ];
 
   const sortedData = [...data]
@@ -145,12 +137,11 @@ export default function Inventory() {
       )}
     </React.Fragment>
   ));
-  const handleTransferClick = () => {
-    navigate("/inventory/transfer");
-  };
 
   return (
-    <Container>
+    <Container style={{ marginBottom: "20px" }}>
+      {" "}
+      {/* Added marginBottom */}
       {/* Header Section with Badge Counts */}
       <Paper
         shadow="xs"
@@ -200,24 +191,18 @@ export default function Inventory() {
               30252
             </Badge>
           </div>
-          <Button
-            color="blue"
-            size="lg"
-            style={{ marginLeft: "auto" }}
-            onClick={handleTransferClick}
-          >
-            Transfer Item
+          <Button color="blue" size="lg" style={{ marginLeft: "auto" }}>
+            Transfer Product
           </Button>
         </Group>
       </Paper>
-
       {/* Tabs and Table */}
       <Paper
         shadow="xs"
         p="lg"
         style={{ borderRadius: "20px", padding: "30px" }}
       >
-        <Tabs defaultValue="CSE">
+        <Tabs defaultValue="H1">
           <Tabs.List style={{ marginBottom: "15px" }}>
             {categories.map((category, index) => (
               <Tabs.Tab
@@ -227,7 +212,8 @@ export default function Inventory() {
                   fontSize: "15px",
                   padding: "12px",
                   border: "1px solid black",
-                  width: "100px",
+                  margin: "5px",
+                  width: "120px",
                   borderRadius: "5px",
                   marginRight: "1px",
                   backgroundColor:
@@ -240,8 +226,8 @@ export default function Inventory() {
                 {category.label}
               </Tabs.Tab>
             ))}
-            <Button style={{ marginLeft: "auto" }}>Add Product</Button>
-            <Button style={{ marginLeft: "10px" }}>Filters</Button>
+            <Button style={{ margin: "5px 5px 10px 20px" }}>Add Product</Button>
+            <Button style={{ margin: "5px " }}>Filters</Button>
           </Tabs.List>
 
           <Group position="apart" style={{ marginBottom: "10px" }}>
@@ -325,9 +311,15 @@ export default function Inventory() {
             </Table>
           </div>
 
-          <Group style={{ marginTop: "20px", justifyContent: "space-between" }}>
-            <Button>Previous</Button>
-            <Button>Next</Button>
+          <Group
+            style={{
+              marginTop: "20px",
+              justifyContent: "space-between",
+              marginBottom: "40px", // Added bottom margin here
+            }}
+          >
+            <Button>Export Data</Button>
+            <Button>Print Data</Button>
           </Group>
         </Tabs>
       </Paper>
