@@ -5,6 +5,7 @@ import InventoryDashboard from "./inventoryDashboard";
 import HostelInventory from "./HostelInventory";
 import Reports from "./Reports";
 import Btech from "./Btech";
+import Bdes from "./Bdes";
 
 // Import InventoryDashboard (ensure the path is correct)
 
@@ -20,6 +21,7 @@ const sectionComponents = {
   Hostel: HostelInventory,
   Reports,
   Btech,
+  Bdes,
   // Add other components here for different sections if needed
   // 'My Fine': MyFineComponent,
   // 'Leave': LeaveComponent,
