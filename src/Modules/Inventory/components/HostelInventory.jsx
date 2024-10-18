@@ -11,6 +11,7 @@ import {
   Select,
   Button,
 } from "@mantine/core";
+import { useNavigate } from "react-router-dom";
 
 const data = [
   {
@@ -88,6 +89,7 @@ const data = [
 export default function HostelInventory() {
   const [selectedCategory, setSelectedCategory] = useState("H1");
   const [sortOption, setSortOption] = useState("Last Updated");
+  const navigate = useNavigate();
 
   const categories = [
     { label: "H1", value: "H1" },
@@ -137,6 +139,9 @@ export default function HostelInventory() {
       )}
     </React.Fragment>
   ));
+  const handleTransferClick = () => {
+    navigate("/inventory/transfer");
+  };
 
   return (
     <Container style={{ marginBottom: "20px" }}>
@@ -191,7 +196,12 @@ export default function HostelInventory() {
               30252
             </Badge>
           </div>
-          <Button color="blue" size="lg" style={{ marginLeft: "auto" }}>
+          <Button
+            color="blue"
+            size="lg"
+            style={{ marginLeft: "auto" }}
+            onClick={handleTransferClick}
+          >
             Transfer Product
           </Button>
         </Group>

@@ -1,217 +1,108 @@
-/* Main Content Styling */
-.content h2 {
-    font-size: 22px;
-    margin-block-end: 10px;
-    color: #444;
-  }
-  
-  table {
-    inline-size: 100%;
-    border-collapse: collapse;
-    margin-block-end: 30px;
-  }
-  
-  table th, table td {
-    padding: 10px;
-    text-align: start;
-    border-block-end: 1px solid #ddd;
-  }
-  
-  table th {
-    background-color: #f8f9fa;
-    font-weight: bold;
-  }
-  
-  table tbody tr:nth-child(even) {
-    background-color: #f2f2f2;
-  }
-  
-  .transfer-form {
-    background-color: #f9f9f9;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-  }
-  
-  .transfer-form form label {
-    display: block;
-    margin-block-end: 10px;
-    font-weight: bold;
-  }
-  
-  .transfer-form form input, 
-  .transfer-form form select {
-    inline-size: 100%;
-    padding: 10px;
-    margin-block-end: 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-  }
-  
-  .transfer-form button {
-    background-color: #007bff;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  
-  .transfer-form button:hover {
-    background-color: #0056b3;
-  }
-  /* General container for the page layout */
+/* General container for the page layout */
 .container {
     display: flex;
-    block-size: 100vh;
+    flex-direction: column; /* To center content vertically */
+    align-items: center; /* Center horizontally */
+    block-size: 100vh; /* Full height */
+    inline-size: 100vw; /* Full screen width */
+    padding: 20px;
+    box-sizing: border-box;
     font-family: Arial, sans-serif;
-  }
-  
-  /* Sidebar styles */
-  .sidebar {
-    inline-size: 300px; /* Increased sidebar width */
-    background-color: #f8f9fa;
-    padding: 30px; /* Added more padding for a larger feel */
-    block-size: 100%;
-    position: fixed;
-    inset-block-start: 0;
-    inset-inline-start: 0;
-    overflow-y: auto;
-  }
-  
-  .sidebar .logo {
-    font-size: 26px; /* Increased font size for logo */
-    font-weight: bold;
-    color: #007bff;
-    margin-block-end: 40px;
-  }
-  
-  .sidebar ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .sidebar ul li {
-    padding: 18px 0; /* Increased padding for a larger look */
-    color: #333;
-    font-size: 18px; /* Increased font size for menu items */
-    cursor: pointer;
-  }
-  
-  .sidebar ul li:hover {
-    background-color: #e9ecef;
-    padding-inline-start: 15px; /* Slight indentation on hover */
-  }
-  
-  .sidebar ul .submenu li {
-    padding-inline-start: 25px;
-    font-size: 16px;
-  }
-  
-  /* Main content styles */
-  .content {
-    margin-inline-start: 250px; /* Ensure it's properly spaced next to the larger sidebar */
-    padding: 30px; /* Increased padding for the content */
+}
+
+/* Main content styles */
+.content {
+    inline-size: 80vw; /* Control the width to be 80% of the viewport */
+    max-inline-size: 1200px; /* Maximum width limit */
+    padding: 30px;
     display: flex;
+    flex-direction: row;
+    justify-content: space-between; /* Spacing between table and form */
     margin-block-start: 50px;
     gap: 70px; /* Space between table and form */
-    
-  }
-/*  Breadcrumb styles
-/*.breadcrumb {
-  font-size: 14px;
-  color: #6c757d;
-  margin-block-end: 15px; /* Adjusted margin for spacing */
-/*}*/
+}
 
-/* .breadcrumb p {
-  margin: 0;
-  padding: 5px 0;
-} */
-
-  
-  /* Table container styles */
-  .table-container {
+/* Table container styles */
+.table-container {
     flex: 1;
     background-color: #fff;
     padding: 30px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-inline-start: 5px solid #007bff; /* Blue border on the left */
-  }
-  
-  .table-container h2 {
+    inline-size: 100%; /* Full width of its parent */
+}
+
+.table-container h2 {
     margin-block-end: 25px;
-  }
-  
-  .table-container table {
-    inline-size: 100%;
+}
+
+.table-container table {
+    inline-size: 100%; /* Full width of the table */
     border-collapse: collapse;
-  }
-  
-  .table-container th, 
-  .table-container td {
+}
+
+.table-container th, 
+.table-container td {
     padding: 20px;
     text-align: start;
     border-block-end: 1px solid #ddd;
-  }
-  
-  .table-container th {
+}
+
+.table-container th {
     background-color: #f8f9fa;
     font-size: 16px;
     font-weight: bold;
-  }
-  
-  .table-container td {
+}
+
+.table-container td {
     font-size: 14px;
-  }
-  
-  .table-container input[type="checkbox"] {
+}
+
+.table-container input[type="checkbox"] {
     inline-size: 20px;
     block-size: 20px;
-  }
-  
-  /* Form container styles */
-  .form-container {
-    inline-size: 600px; /* Increased form width */
-    /* inline-size-left: 100px; */
+}
+
+/* Form container styles */
+.form-container {
+    inline-size: 600px; /* Width of the form */
     padding: 25px;
     background-color: #f8f9fa;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .form-container h2 {
+}
+
+.form-container h2 {
     margin-block-end: 20px;
-  }
-  
-  .form-container .form-group {
+}
+
+.form-container .form-group {
     margin-block-end: 15px;
-  }
-  
-  .form-container .form-group label {
+}
+
+.form-container .form-group label {
     font-weight: 500;
     margin-block-end: 5px;
     display: block;
-  }
-  
-  .form-container .form-group input,
-  .form-container .form-group select {
+}
+
+.form-container .form-group input,
+.form-container .form-group select {
     inline-size: 100%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 14px;
-  }
-  
-  .form-container .form-group input:focus,
-  .form-container .form-group select:focus {
+}
+
+.form-container .form-group input:focus,
+.form-container .form-group select:focus {
     border-color: #007bff;
     outline: none;
-  }
-  
-  .form-button {
+}
+
+.form-button {
     background-color: #27282a;
     color: white;
     padding: 10px;
@@ -220,9 +111,8 @@
     font-size: 14px;
     cursor: pointer;
     inline-size: 100%;
-  }
-  
-  .form-button:hover {
+}
+
+.form-button:hover {
     background-color: #0056b3;
-  }
-  
+}
