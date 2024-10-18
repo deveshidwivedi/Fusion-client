@@ -11,6 +11,7 @@ import {
   Select,
   Button,
 } from "@mantine/core";
+import { useNavigate } from "react-router-dom"; // Import useNavigate hook
 
 const data = [
   {
@@ -63,6 +64,8 @@ export default function Inventory() {
 
   const categories = [{ label: "Design", value: "Design" }];
 
+  const navigate = useNavigate();
+
   const sortedData = [...data]
     .filter((item) => item.department === selectedCategory)
     .sort((a, b) => {
@@ -103,6 +106,10 @@ export default function Inventory() {
       )}
     </React.Fragment>
   ));
+
+  const handleTransferClick = () => {
+    navigate("/inventory/transfer");
+  };
 
   return (
     <Container style={{ marginTop: "20px" }}>
@@ -153,7 +160,12 @@ export default function Inventory() {
               43500
             </Badge>
           </div>
-          <Button color="blue" size="lg" style={{ marginLeft: "auto" }}>
+          <Button
+            color="blue"
+            size="lg"
+            style={{ marginLeft: "auto" }}
+            onClick={handleTransferClick}
+          >
             Transfer Item
           </Button>
         </Group>
