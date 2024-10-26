@@ -13,6 +13,7 @@ import Reports from "./Modules/Inventory/components/Reports";
 import InventoryIndex from "./Modules/Inventory/components/InventoryIndex";
 import Btech from "./Modules/Inventory/components/Btech";
 import TransferProduct from "./Modules/Inventory/components/TransferProduct";
+import InventoryTable from "./Modules/Inventory/components/InventoryTable";
 
 export default function App() {
   const location = useLocation();
@@ -79,11 +80,19 @@ export default function App() {
             </Layout>
           }
         />
-         <Route
+        <Route
           path="/inventory/transfer"
           element={
             <Layout>
               <TransferProduct />
+            </Layout>
+          }
+        />
+        <Route
+          path="/inventory/InventoryTable"
+          element={
+            <Layout>
+              <InventoryTable />
             </Layout>
           }
         />

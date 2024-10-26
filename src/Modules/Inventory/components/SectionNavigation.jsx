@@ -6,32 +6,164 @@ import HostelInventory from "./HostelInventory";
 import Reports from "./Reports";
 import Btech from "./Btech";
 import Bdes from "./Bdes";
+import InventoryTable from "./InventoryTable";
 
-// Import InventoryDashboard (ensure the path is correct)
+const sections = [
+  "Overall Inventory",
+  "Hostel",
+  "Reports",
+  "Btech",
+  "Bdes",
+  "ViewList",
+];
 
-const sections = ["Overall Inventory", "Hostel", "Reports", "Btech", "Bdes"];
-
-// const subSections = {
-//   'Leave': ['Leave Form', 'Leave Status'],
-// };
-
-// Create a map of components for each section
 const sectionComponents = {
   "Overall Inventory": InventoryDashboard,
   Hostel: HostelInventory,
   Reports,
   Btech,
   Bdes,
-  // Add other components here for different sections if needed
-  // 'My Fine': MyFineComponent,
-  // 'Leave': LeaveComponent,
-  // etc.
+  ViewList: InventoryTable,
 };
 
 export default function SectionNavigation() {
   const [activeSection, setActiveSection] = useState("Overall Inventory");
 
-  // Get the component for the active section
+  // Dummy data for InventoryTable items
+  const dummyItems = [
+    {
+      itemId: 1,
+      department: "IT",
+      itemName: "Laptop",
+      itemType: "Non-Consumable",
+      serialNumber: "12345ABC",
+      quantity: 5,
+      dateIssued: "2023-09-10",
+      issuedTo: "John Doe",
+      unitPrice: 500.0,
+      totalCost: 2500.0,
+      datePurchased: "2023-09-05",
+    },
+    {
+      itemId: 2,
+      department: "Mechanical Lab",
+      itemName: "Funnel Set",
+      itemType: "Non-Consumable",
+      serialNumber: "PRJ56789",
+      quantity: 2,
+      dateIssued: "2023-08-12",
+      issuedTo: "Mechanical Lab",
+      unitPrice: 300.0,
+      totalCost: 600.0,
+      datePurchased: "2023-08-10",
+    },
+    {
+      itemId: 3,
+      department: "Physics Lab",
+      itemName: "Oscilloscope",
+      itemType: "Non-Consumable",
+      serialNumber: "OSC12345",
+      quantity: 1,
+      dateIssued: "2023-07-15",
+      issuedTo: "Physics Lab",
+      unitPrice: 1000.0,
+      totalCost: 1000.0,
+      datePurchased: "2023-07-10",
+    },
+    {
+      itemId: 4,
+      department: "Chemistry Lab",
+      itemName: "Beaker Set",
+      itemType: "Consumable",
+      serialNumber: "CHEM67890",
+      quantity: 50,
+      dateIssued: "2023-09-20",
+      issuedTo: "Chemistry Lab",
+      unitPrice: 2.0,
+      totalCost: 100.0,
+      datePurchased: "2023-09-15",
+    },
+    {
+      itemId: 5,
+      department: "Engineering Workshop",
+      itemName: "3D Printer",
+      itemType: "Non-Consumable",
+      serialNumber: "3DPRT4567",
+      quantity: 1,
+      dateIssued: "2023-06-18",
+      issuedTo: "Workshop",
+      unitPrice: 1200.0,
+      totalCost: 1200.0,
+      datePurchased: "2023-06-10",
+    },
+    {
+      itemId: 6,
+      department: "Computer Science Lab",
+      itemName: "Desktop Computer",
+      itemType: "Non-Consumable",
+      serialNumber: "PC09876",
+      quantity: 10,
+      dateIssued: "2023-10-01",
+      issuedTo: "Lab C",
+      unitPrice: 400.0,
+      totalCost: 4000.0,
+      datePurchased: "2023-09-25",
+    },
+    {
+      itemId: 7,
+      department: "Design Lab",
+      itemName: "Soft Board",
+      itemType: "Non-Consumable",
+      serialNumber: "LIBBKS234",
+      quantity: 20,
+      dateIssued: "2023-07-25",
+      issuedTo: "Design Lab",
+      unitPrice: 15.0,
+      totalCost: 300.0,
+      datePurchased: "2023-07-20",
+    },
+    {
+      itemId: 8,
+      department: "Mechanical Lab",
+      itemName: "Hydraulic Press",
+      itemType: "Non-Consumable",
+      serialNumber: "MECH45231",
+      quantity: 1,
+      dateIssued: "2023-05-15",
+      issuedTo: "Mechanical Lab",
+      unitPrice: 850.0,
+      totalCost: 850.0,
+      datePurchased: "2023-05-10",
+    },
+    {
+      itemId: 9,
+      department: "Physics Lab",
+      itemName: "Spectrometer",
+      itemType: "Non-Consumable",
+      serialNumber: "SPEC67893",
+      quantity: 1,
+      dateIssued: "2023-04-15",
+      issuedTo: "Physics Lab",
+      unitPrice: 950.0,
+      totalCost: 950.0,
+      datePurchased: "2023-04-10",
+    },
+    {
+      itemId: 10,
+      department: "Art Department",
+      itemName: "Canvas and Paints Set",
+      itemType: "Consumable",
+      serialNumber: "ARTMTRL789",
+      quantity: 30,
+      dateIssued: "2023-09-10",
+      issuedTo: "Art Room",
+      unitPrice: 20.0,
+      totalCost: 600.0,
+      datePurchased: "2023-09-01",
+    },
+  ];
+
+  // Dynamically render the active section component
   const ActiveComponent = sectionComponents[activeSection];
 
   return (
@@ -61,48 +193,14 @@ export default function SectionNavigation() {
         ))}
         <CaretRight size={20} weight="bold" color="#718096" />
       </Group>
-      {/* 
-      {subSections[activeSection] && (
-        <Group spacing="xs" mt="xs">
-          {subSections[activeSection].map((subSection, index) => (
-            <React.Fragment key={subSection}>
-              <Text
-                size="sm"
-                color="#4299E1"
-                style={{ cursor: 'pointer', whiteSpace: 'nowrap' }}
-              >
-                {subSection}
-              </Text>
-              {index < subSections[activeSection].length - 1 && (
-                <Text color="#CBD5E0" size="sm">|</Text>
-              )}
-            </React.Fragment>
-          ))}
-        </Group>
-      )} */}
 
-      {/* <Box
-        mt="md"
-        style={{
-          border: '2px solid black',
-          height: '400px',
-          width: '100%', // Make the box take full width
-          overflow: 'auto', // Add scroll for overflowing content
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: '16px', // Add some padding to avoid content touching the edges
-          boxSizing: 'border-box',
-        }}
-      > */}
-      {ActiveComponent ? (
-        <Box style={{ width: "100%", height: "100%", overflowY: "auto" }}>
-          <ActiveComponent />
-        </Box>
-      ) : (
-        <Text>Content for {activeSection}</Text>
-      )}
-      {/* </Box> */}
+      <Box style={{ width: "100%", height: "100%", overflowY: "auto" }}>
+        {activeSection === "ViewList" ? (
+          <ActiveComponent items={dummyItems} />
+        ) : (
+          ActiveComponent && <ActiveComponent />
+        )}
+      </Box>
     </Container>
   );
 }
