@@ -4,16 +4,16 @@ import { CaretLeft, CaretRight } from "@phosphor-icons/react";
 import InventoryDashboard from "./inventoryDashboard";
 import HostelInventory from "./HostelInventory";
 import Reports from "./Reports";
-import Btech from "./Btech";
-import Bdes from "./Bdes";
+// import Btech from "./Btech";
+import Department from "./Bdes";
 import InventoryTable from "./InventoryTable";
 
 const sections = [
   "Overall Inventory",
   "Hostel",
   "Reports",
-  "Btech",
-  "Bdes",
+  // "Btech",
+  "Department",
   "ViewList",
 ];
 
@@ -21,8 +21,8 @@ const sectionComponents = {
   "Overall Inventory": InventoryDashboard,
   Hostel: HostelInventory,
   Reports,
-  Btech,
-  Bdes,
+  // Btech,
+  Department,
   ViewList: InventoryTable,
 };
 

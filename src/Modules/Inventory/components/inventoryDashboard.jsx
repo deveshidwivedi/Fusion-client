@@ -1,11 +1,6 @@
 import React from "react";
 import { Text, Box, Grid, Card, Group, ThemeIcon } from "@mantine/core";
-import {
-  IconHome,
-  IconPackage,
-  IconBook,
-  IconDevices,
-} from "@tabler/icons-react";
+import { House, Package, Book, Devices } from "@phosphor-icons/react";
 import CustomBreadcrumbs from "../../../components/Breadcrumbs";
 
 function InventoryDashboard() {
@@ -13,8 +8,8 @@ function InventoryDashboard() {
     { name: "Btech", count: 1234, added: 48 },
     { name: "BDes", count: 567, added: 12 },
     { name: "Hostel", count: 321, added: 15 },
-    { name: "Books", count: 1234, added: 48, icon: IconBook },
-    { name: "Electronics", count: 567, added: 12, icon: IconDevices },
+    { name: "Books", count: 1234, added: 48, icon: Book },
+    { name: "Electronics", count: 567, added: 12, icon: Devices },
   ];
 
   return (
@@ -34,7 +29,7 @@ function InventoryDashboard() {
         </Text>
         <Group>
           <ThemeIcon size="lg" variant="light" color="teal">
-            <IconHome size={20} />
+            <House size={20} />
           </ThemeIcon>
           <div>
             <Text size="sm" color="dimmed">
@@ -45,7 +40,7 @@ function InventoryDashboard() {
         </Group>
         <Group mt="md">
           <ThemeIcon size="lg" variant="light" color="blue">
-            <IconPackage size={20} />
+            <Package size={20} />
           </ThemeIcon>
           <div>
             <Text size="sm" color="dimmed">
@@ -73,7 +68,7 @@ function InventoryDashboard() {
                         justifyContent: "flex-end",
                       }}
                     >
-                      <item.icon />
+                      <item.icon size={32} />
                     </div>
 
                     <div style={{ marginTop: "-30px" }}>

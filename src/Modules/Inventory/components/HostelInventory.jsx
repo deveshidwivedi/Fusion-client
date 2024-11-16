@@ -1,17 +1,15 @@
 import React, { useState } from "react";
 import {
   Table,
-  Tabs,
-  Text,
   Container,
   Group,
-  Badge,
   Paper,
-  Divider,
-  Select,
   Button,
+  Text,
+  // Select,
 } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
+import AddProduct from "./AddProduct";
 
 const data = [
   {
@@ -87,11 +85,12 @@ const data = [
 ];
 
 export default function HostelInventory() {
-  const [selectedCategory, setSelectedCategory] = useState("H1");
-  const [sortOption, setSortOption] = useState("Last Updated");
+  const [selectedDepartment, setSelectedDepartment] = useState("H1");
+  const sortOption = "Last Updated";
+  const [showAddProductModal, setShowAddProductModal] = useState(false);
   const navigate = useNavigate();
 
-  const categories = [
+  const departments = [
     { label: "H1", value: "H1" },
     { label: "H3", value: "H3" },
     { label: "H4", value: "H4" },
@@ -99,8 +98,12 @@ export default function HostelInventory() {
     { label: "Maa Saraswati", value: "Maa Saraswati" },
   ];
 
-  const sortedData = [...data]
-    .filter((item) => item.department === selectedCategory)
+  const handleTransferClick = () => {
+    navigate("/inventory/transfer");
+  };
+
+  const filteredData = data
+    .filter((item) => item.department === selectedDepartment)
     .sort((a, b) => {
       if (sortOption === "Last Updated") {
         return new Date(b.lastUpdated) - new Date(a.lastUpdated);
@@ -111,228 +114,224 @@ export default function HostelInventory() {
       return 0;
     });
 
-  const filteredRows = sortedData.map((item, index) => (
-    <React.Fragment key={index}>
-      <tr>
-        <td style={{ fontSize: "16px", textAlign: "center", padding: "10px" }}>
-          {item.product}
-        </td>
-        <td style={{ fontSize: "16px", textAlign: "center", padding: "10px" }}>
-          {item.quantity}
-        </td>
-        <td style={{ fontSize: "16px", textAlign: "center", padding: "10px" }}>
-          {item.price}
-        </td>
-        <td style={{ fontSize: "16px", textAlign: "center", padding: "10px" }}>
-          {item.department}
-        </td>
-        <td style={{ fontSize: "16px", textAlign: "center", padding: "10px" }}>
-          {item.lastUpdated}
-        </td>
-      </tr>
-      {index < sortedData.length - 1 && (
-        <tr>
-          <td colSpan="6">
-            <Divider />
-          </td>
-        </tr>
-      )}
-    </React.Fragment>
-  ));
-  const handleTransferClick = () => {
-    navigate("/inventory/transfer");
+  const openAddProductModal = () => {
+    setShowAddProductModal(true);
+  };
+
+  const closeAddProductModal = () => {
+    setShowAddProductModal(false);
   };
 
   return (
-    <Container style={{ marginBottom: "20px" }}>
-      {" "}
-      {/* Added marginBottom */}
-      {/* Header Section with Badge Counts */}
+    <Container
+      style={{
+        marginTop: "20px",
+        maxWidth: "1200px",
+        maxHeight: "1000px",
+        backgroundColor: "white",
+        padding: "20px",
+        borderRadius: "12px",
+      }}
+    >
+      <Text
+        align="center"
+        style={{
+          fontSize: "26px",
+          marginBottom: "20px",
+          fontWeight: 600,
+          color: "#228BE6",
+        }}
+      >
+        {selectedDepartment} Hostel Inventory
+      </Text>
+
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          marginBottom: "20px",
+        }}
+      >
+        <Group spacing="md">
+          <Button
+            style={{ fontSize: "14px" }}
+            variant="filled"
+            color="blue"
+            onClick={handleTransferClick}
+            size="md"
+          >
+            Transfer Item
+          </Button>
+
+          {departments.map((dept, index) => (
+            <Button
+              key={index}
+              style={{
+                fontSize: "14px",
+                backgroundColor:
+                  selectedDepartment === dept.value ? "#228BE6" : "white",
+                color: selectedDepartment === dept.value ? "white" : "black",
+                border: "1px solid #1366D9",
+              }}
+              onClick={() => setSelectedDepartment(dept.value)}
+              size="md"
+            >
+              {dept.label}
+            </Button>
+          ))}
+
+          <Button
+            style={{ fontSize: "14px" }}
+            variant="filled"
+            color="blue"
+            size="md"
+            onClick={openAddProductModal}
+          >
+            Add Product
+          </Button>
+        </Group>
+      </div>
+
       <Paper
         shadow="xs"
         p="lg"
         style={{
-          backgroundColor: "rgba(255, 255, 255, 0.5)",
-          borderRadius: "20px",
-          marginTop: "20px",
-          marginBottom: "20px",
-          padding: "30px",
+          borderRadius: "12px",
+          marginLeft: "190px",
         }}
       >
-        <Group position="apart" spacing="xl">
-          <div>
-            <Text
-              style={{
-                fontFamily: "Manrope",
-                fontSize: "20px",
-                color: "#000000",
-              }}
-            >
-              Categories
-            </Text>
-            <Badge size="xl" color="blue">
-              14
-            </Badge>
-          </div>
-          <Divider
-            orientation="vertical"
-            style={{
-              height: "65px",
-              margin: "0 20px",
-              backgroundColor: "black",
-            }}
-          />
-          <div>
-            <Text
-              style={{
-                fontFamily: "Manrope",
-                fontSize: "20px",
-                color: "#000000",
-              }}
-            >
-              Total Products
-            </Text>
-            <Badge size="xl" color="blue">
-              30252
-            </Badge>
-          </div>
-          <Button
-            color="blue"
-            size="lg"
-            style={{ marginLeft: "auto" }}
-            onClick={handleTransferClick}
-          >
-            Transfer Product
-          </Button>
-        </Group>
+        <div style={{ overflowX: "auto" }}>
+          <Table striped highlightOnHover verticalSpacing="md">
+            <thead>
+              <tr>
+                <th
+                  style={{
+                    fontSize: "24px",
+                    padding: "16px 16px 16px 8px",
+                    textAlign: "left",
+                    // marginLeft:"-100px"
+                  }}
+                >
+                  Product
+                </th>
+                <th
+                  style={{
+                    fontSize: "24px",
+                    padding: "16px 16px 16px 2px",
+                    textAlign: "left",
+                  }}
+                >
+                  Quantity
+                </th>
+                <th
+                  style={{
+                    fontSize: "24px",
+                    padding: "16px 16px 16px 14px",
+                    textAlign: "left",
+                  }}
+                >
+                  Price
+                </th>
+                <th
+                  style={{
+                    fontSize: "24px",
+                    padding: "16px 16px 16px 2px",
+                    textAlign: "left",
+                  }}
+                >
+                  Last Updated
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredData.map((item, index) => (
+                <tr key={index}>
+                  <td style={{ padding: "16px", fontSize: "14px" }}>
+                    {item.product}
+                  </td>
+                  <td style={{ padding: "16px", fontSize: "14px" }}>
+                    {item.quantity}
+                  </td>
+                  <td style={{ padding: "16px", fontSize: "14px" }}>
+                    ${item.price}
+                  </td>
+                  <td style={{ padding: "16px", fontSize: "14px" }}>
+                    {item.lastUpdated}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </div>
       </Paper>
-      {/* Tabs and Table */}
-      <Paper
-        shadow="xs"
-        p="lg"
-        style={{ borderRadius: "20px", padding: "30px" }}
-      >
-        <Tabs defaultValue="H1">
-          <Tabs.List style={{ marginBottom: "15px" }}>
-            {categories.map((category, index) => (
-              <Tabs.Tab
-                key={index}
-                value={category.value}
-                style={{
-                  fontSize: "15px",
-                  padding: "12px",
-                  border: "1px solid black",
-                  margin: "5px",
-                  width: "120px",
-                  borderRadius: "5px",
-                  marginRight: "1px",
-                  backgroundColor:
-                    selectedCategory === category.value
-                      ? "#1366D9"
-                      : "lightblue",
-                }}
-                onClick={() => setSelectedCategory(category.value)}
-              >
-                {category.label}
-              </Tabs.Tab>
-            ))}
-            <Button style={{ margin: "5px 5px 10px 20px" }}>Add Product</Button>
-            <Button style={{ margin: "5px " }}>Filters</Button>
-          </Tabs.List>
 
-          <Group position="apart" style={{ marginBottom: "10px" }}>
-            <Select
-              value={sortOption}
-              onChange={setSortOption}
-              data={[
-                { value: "Last Updated", label: "Last Updated" },
-                { value: "price", label: "Price" },
-              ]}
-              placeholder="Sort By"
-              style={{ width: "140px" }}
-            />
-          </Group>
+      {showAddProductModal && (
+        <>
+          <div
+            style={{
+              position: "fixed",
+              top: 0,
+              left: 0,
+              width: "100vw",
+              height: "100vh",
+              backgroundColor: "rgba(0, 0, 0, 0.5)",
+              zIndex: 1000,
+              overflow: "hidden",
+            }}
+            role="button"
+            tabIndex={0}
+            onClick={closeAddProductModal}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                closeAddProductModal();
+              }
+            }}
+            aria-label="Close Add Product Modal Background"
+          />
 
           <div
             style={{
-              height: "420px",
-              overflowY: "scroll",
-              scrollbarWidth: "thin",
+              position: "fixed",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: "80%",
+              maxWidth: "600px",
+              backgroundColor: "#fff",
+              boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+              borderRadius: "8px",
+              zIndex: 1001,
+              overflow: "hidden", // Ensure no scrollbar appears
             }}
           >
-            <Table
-              striped
-              highlightOnHover
-              verticalSpacing="lg"
-              horizontalSpacing="xl"
-              fontSize="lg"
+            <button
+              style={{
+                position: "absolute",
+                top: "10px",
+                right: "10px",
+                backgroundColor: "transparent",
+                border: "none",
+                fontSize: "16px",
+                cursor: "pointer",
+              }}
+              onClick={closeAddProductModal}
+              aria-label="Close Modal"
             >
-              <thead>
-                <tr>
-                  <th
-                    style={{
-                      fontSize: "18px",
-                      textAlign: "center",
-                      paddingBottom: "10px",
-                    }}
-                  >
-                    Products
-                  </th>
-                  <th
-                    style={{
-                      fontSize: "18px",
-                      textAlign: "center",
-                      paddingBottom: "10px",
-                    }}
-                  >
-                    Quantity
-                  </th>
-                  <th
-                    style={{
-                      fontSize: "18px",
-                      textAlign: "center",
-                      paddingBottom: "10px",
-                    }}
-                  >
-                    Price
-                  </th>
-                  <th
-                    style={{
-                      fontSize: "18px",
-                      textAlign: "center",
-                      paddingBottom: "10px",
-                    }}
-                  >
-                    Department
-                  </th>
-                  <th
-                    style={{
-                      fontSize: "18px",
-                      textAlign: "center",
-                      paddingBottom: "10px",
-                    }}
-                  >
-                    Last Updated
-                  </th>
-                </tr>
-              </thead>
+              X
+            </button>
 
-              <tbody>{filteredRows}</tbody>
-            </Table>
+            <div
+              style={{
+                margin: "-80px 0 -65px 0",
+                height: "835px",
+                overflow: "hidden", // Prevent scrolling inside modal
+              }}
+            >
+              <AddProduct />
+            </div>
           </div>
-
-          <Group
-            style={{
-              marginTop: "20px",
-              justifyContent: "space-between",
-              marginBottom: "40px", // Added bottom margin here
-            }}
-          >
-            <Button>Export Data</Button>
-            <Button>Print Data</Button>
-          </Group>
-        </Tabs>
-      </Paper>
+        </>
+      )}
     </Container>
   );
 }
