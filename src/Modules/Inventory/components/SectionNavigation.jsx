@@ -1,206 +1,129 @@
-import React, { useState } from "react";
-import { Group, Text, Box, Container } from "@mantine/core";
-import { CaretLeft, CaretRight } from "@phosphor-icons/react";
+import React, { useState, useRef } from "react";
+import { Text, Button, Flex, Select, Tabs } from "@mantine/core";
+import {
+  CaretCircleLeft,
+  CaretCircleRight,
+  SortAscending,
+} from "@phosphor-icons/react";
+
+// Import your section components
 import InventoryDashboard from "./inventoryDashboard";
 import HostelInventory from "./HostelInventory";
 import Reports from "./Reports";
-// import Btech from "./Btech";
 import Department from "./Bdes";
-import InventoryTable from "./InventoryTable";
 
-const sections = [
-  "Overall Inventory",
-  "Hostel",
-  "Reports",
-  // "Btech",
-  "Department",
-  "ViewList",
-];
+const sections = ["Overall Inventory", "Hostel", "Reports", "Department"];
 
 const sectionComponents = {
   "Overall Inventory": InventoryDashboard,
   Hostel: HostelInventory,
   Reports,
-  // Btech,
   Department,
-  ViewList: InventoryTable,
 };
 
 export default function SectionNavigation() {
   const [activeSection, setActiveSection] = useState("Overall Inventory");
+  const [activeTab, setActiveTab] = useState("0");
+  const tabsListRef = useRef(null); // Reference for scrollable tabs
 
-  // Dummy data for InventoryTable items
-  const dummyItems = [
-    {
-      itemId: 1,
-      department: "IT",
-      itemName: "Laptop",
-      itemType: "Non-Consumable",
-      serialNumber: "12345ABC",
-      quantity: 5,
-      dateIssued: "2023-09-10",
-      issuedTo: "John Doe",
-      unitPrice: 500.0,
-      totalCost: 2500.0,
-      datePurchased: "2023-09-05",
-    },
-    {
-      itemId: 2,
-      department: "Mechanical Lab",
-      itemName: "Funnel Set",
-      itemType: "Non-Consumable",
-      serialNumber: "PRJ56789",
-      quantity: 2,
-      dateIssued: "2023-08-12",
-      issuedTo: "Mechanical Lab",
-      unitPrice: 300.0,
-      totalCost: 600.0,
-      datePurchased: "2023-08-10",
-    },
-    {
-      itemId: 3,
-      department: "Physics Lab",
-      itemName: "Oscilloscope",
-      itemType: "Non-Consumable",
-      serialNumber: "OSC12345",
-      quantity: 1,
-      dateIssued: "2023-07-15",
-      issuedTo: "Physics Lab",
-      unitPrice: 1000.0,
-      totalCost: 1000.0,
-      datePurchased: "2023-07-10",
-    },
-    {
-      itemId: 4,
-      department: "Chemistry Lab",
-      itemName: "Beaker Set",
-      itemType: "Consumable",
-      serialNumber: "CHEM67890",
-      quantity: 50,
-      dateIssued: "2023-09-20",
-      issuedTo: "Chemistry Lab",
-      unitPrice: 2.0,
-      totalCost: 100.0,
-      datePurchased: "2023-09-15",
-    },
-    {
-      itemId: 5,
-      department: "Engineering Workshop",
-      itemName: "3D Printer",
-      itemType: "Non-Consumable",
-      serialNumber: "3DPRT4567",
-      quantity: 1,
-      dateIssued: "2023-06-18",
-      issuedTo: "Workshop",
-      unitPrice: 1200.0,
-      totalCost: 1200.0,
-      datePurchased: "2023-06-10",
-    },
-    {
-      itemId: 6,
-      department: "Computer Science Lab",
-      itemName: "Desktop Computer",
-      itemType: "Non-Consumable",
-      serialNumber: "PC09876",
-      quantity: 10,
-      dateIssued: "2023-10-01",
-      issuedTo: "Lab C",
-      unitPrice: 400.0,
-      totalCost: 4000.0,
-      datePurchased: "2023-09-25",
-    },
-    {
-      itemId: 7,
-      department: "Design Lab",
-      itemName: "Soft Board",
-      itemType: "Non-Consumable",
-      serialNumber: "LIBBKS234",
-      quantity: 20,
-      dateIssued: "2023-07-25",
-      issuedTo: "Design Lab",
-      unitPrice: 15.0,
-      totalCost: 300.0,
-      datePurchased: "2023-07-20",
-    },
-    {
-      itemId: 8,
-      department: "Mechanical Lab",
-      itemName: "Hydraulic Press",
-      itemType: "Non-Consumable",
-      serialNumber: "MECH45231",
-      quantity: 1,
-      dateIssued: "2023-05-15",
-      issuedTo: "Mechanical Lab",
-      unitPrice: 850.0,
-      totalCost: 850.0,
-      datePurchased: "2023-05-10",
-    },
-    {
-      itemId: 9,
-      department: "Physics Lab",
-      itemName: "Spectrometer",
-      itemType: "Non-Consumable",
-      serialNumber: "SPEC67893",
-      quantity: 1,
-      dateIssued: "2023-04-15",
-      issuedTo: "Physics Lab",
-      unitPrice: 950.0,
-      totalCost: 950.0,
-      datePurchased: "2023-04-10",
-    },
-    {
-      itemId: 10,
-      department: "Art Department",
-      itemName: "Canvas and Paints Set",
-      itemType: "Consumable",
-      serialNumber: "ARTMTRL789",
-      quantity: 30,
-      dateIssued: "2023-09-10",
-      issuedTo: "Art Room",
-      unitPrice: 20.0,
-      totalCost: 600.0,
-      datePurchased: "2023-09-01",
-    },
-  ];
+  const tabItems = sections.map((section) => ({ title: section }));
+
+  const handleTabChange = (tabIndex) => {
+    setActiveTab(tabIndex);
+    setActiveSection(sections[+tabIndex]); // Ensure the active section is correctly updated
+  };
+
+  const handleArrowClick = (direction) => {
+    const newIndex =
+      direction === "next"
+        ? Math.min(+activeTab + 1, tabItems.length - 1)
+        : Math.max(+activeTab - 1, 0);
+    setActiveTab(String(newIndex));
+    setActiveSection(sections[newIndex]); // Update active section for arrow navigation
+
+    if (tabsListRef.current) {
+      tabsListRef.current.scrollBy({
+        left: direction === "next" ? 50 : -50,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const navi = (sec, id) => {
+    setActiveTab(String(id));
+    setActiveSection(sec);
+  };
+
+  // Placeholder categories for Select component
+  const categories = ["Name", "Date", "Department"];
+  const [sortedBy, setSortedBy] = useState("");
 
   // Dynamically render the active section component
   const ActiveComponent = sectionComponents[activeSection];
 
   return (
-    <Container size="xl" p="xs">
-      <Group
-        spacing="xs"
-        noWrap
-        style={{ overflowX: "auto", padding: "8px 0" }}
-      >
-        <CaretLeft size={20} weight="bold" color="#718096" />
-        {sections.map((section, index) => (
-          <React.Fragment key={section}>
-            <Text
-              size="sm"
-              color={activeSection === section ? "#4299E1" : "#718096"}
-              style={{ cursor: "pointer", whiteSpace: "nowrap" }}
-              onClick={() => setActiveSection(section)}
-            >
-              {section}
-            </Text>
-            {index < sections.length - 1 && (
-              <Text color="#CBD5E0" size="sm">
-                |
-              </Text>
-            )}
-          </React.Fragment>
-        ))}
-        <CaretRight size={20} weight="bold" color="#718096" />
-      </Group>
+    <>
+      <Flex justify="space-between" align="center" mt="lg">
+        <Flex justify="flex-start" align="center" gap="1rem" mt="1rem" ml="lg">
+          <Button
+            onClick={() => handleArrowClick("prev")}
+            variant="default"
+            style={{ border: "none", padding: 0 }}
+          >
+            <CaretCircleLeft size={20} />
+          </Button>
 
-      <Box style={{ width: "100%", height: "100%", overflowY: "auto" }}>
-        {activeSection === "ViewList" ? (
-          <ActiveComponent items={dummyItems} />
-        ) : (
-          ActiveComponent && <ActiveComponent />
-        )}
-      </Box>
-    </Container>
+          <div
+            ref={tabsListRef}
+            style={{
+              overflowX: "auto",
+              whiteSpace: "nowrap",
+              flex: 1,
+            }}
+          >
+            <Tabs value={activeTab} onTabChange={handleTabChange}>
+              <Tabs.List>
+                {tabItems.map((item, index) => (
+                  <Tabs.Tab
+                    key={index}
+                    value={`${index}`}
+                    onClick={() => navi(item.title, index)}
+                    style={{
+                      color: activeTab === `${index}` ? "#4299E1" : "",
+                      backgroundColor:
+                        activeTab === `${index}` ? "#15abff13" : "",
+                    }}
+                  >
+                    <Text>{item.title}</Text>
+                  </Tabs.Tab>
+                ))}
+              </Tabs.List>
+            </Tabs>
+          </div>
+
+          <Button
+            onClick={() => handleArrowClick("next")}
+            variant="default"
+            style={{ border: "none", padding: 0 }}
+          >
+            <CaretCircleRight size={20} />
+          </Button>
+        </Flex>
+
+        <Flex align="center" mt="md" gap="1rem">
+          <Select
+            placeholder="Sort By"
+            data={categories}
+            value={sortedBy}
+            onChange={setSortedBy}
+            icon={<SortAscending />}
+          />
+        </Flex>
+      </Flex>
+
+      <div style={{ marginTop: "2rem" }}>
+        {ActiveComponent && <ActiveComponent />}
+      </div>
+    </>
   );
 }
