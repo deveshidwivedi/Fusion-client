@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Table, Container, Group, Paper, Button, Text } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
 import AddProduct from "./AddProduct";
@@ -7,107 +7,55 @@ import "../styles/popupModal.css";
 export default function Inventory() {
   const [showAddProductModal, setShowAddProductModal] = useState(false);
   const [selectedDepartment, setSelectedDepartment] = useState("CSE");
+  const [inventoryData, setInventoryData] = useState([]);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
-  const data = [
-    // CSE Department Data
-    {
-      product: "Computer",
-      quantity: 50,
-      price: 10000,
-      department: "CSE",
-      lastUpdated: "29-03-2024",
-    },
-    {
-      product: "Peripherals",
-      quantity: 50,
-      price: 500,
-      department: "CSE",
-      lastUpdated: "29-03-2024",
-    },
-    {
-      product: "Projectors",
-      quantity: 50,
-      price: 15000,
-      department: "CSE",
-      lastUpdated: "14-03-2024",
-    },
-    // ECE Department Data
-    {
-      product: "Wires",
-      quantity: 30,
-      price: 600,
-      department: "ECE",
-      lastUpdated: "26-03-2024",
-    },
-    {
-      product: "Voltmeter",
-      quantity: 30,
-      price: 1200,
-      department: "ECE",
-      lastUpdated: "26-03-2024",
-    },
-    // Mech Department Data
-    {
-      product: "Chairs",
-      quantity: 80,
-      price: 480,
-      department: "Mech",
-      lastUpdated: "29-03-2024",
-    },
-    {
-      product: "Cables",
-      quantity: 80,
-      price: 80,
-      department: "Mech",
-      lastUpdated: "29-03-2024",
-    },
-    // SM Department Data
-    {
-      product: "Lasers",
-      quantity: 140,
-      price: 900,
-      department: "SM",
-      lastUpdated: "04-03-2024",
-    },
-    {
-      product: "Boards",
-      quantity: 140,
-      price: 2050,
-      department: "SM",
-      lastUpdated: "04-03-2024",
-    },
-    // Design Department Data
-    {
-      product: "Sheets",
-      quantity: 100,
-      price: 200,
-      department: "Design",
-      lastUpdated: "01-10-2024",
-    },
-    {
-      product: "Art Supplies",
-      quantity: 50,
-      price: 500,
-      department: "Design",
-      lastUpdated: "28-09-2024",
-    },
-    {
-      product: "Laptop",
-      quantity: 20,
-      price: 60000,
-      department: "Design",
-      lastUpdated: "15-09-2024",
-    },
-  ];
 
   const departments = [
     { label: "CSE", value: "CSE" },
     { label: "ECE", value: "ECE" },
-    { label: "Mech", value: "Mech" },
+    { label: "ME", value: "ME" },
     { label: "SM", value: "SM" },
     { label: "Design", value: "Design" },
   ];
+
+  const fetchDepartmentData = async () => {
+    const token = localStorage.getItem("authToken");
+
+    if (!token) {
+      alert("Please log in to add a product");
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `http://127.0.0.1:8000/inventory/api/departments/?department=${selectedDepartment}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch department data");
+      }
+
+      const data = await response.json();
+      console.log("Department data:", data);
+      setInventoryData(data);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching department data:", error);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    setLoading(true);
+    fetchDepartmentData(selectedDepartment);
+  }, [selectedDepartment]);
 
   const handleTransferClick = () => {
     navigate("/inventory/transfer");
@@ -121,19 +69,18 @@ export default function Inventory() {
     setShowAddProductModal(false);
   };
 
-  const filteredData = data.filter(
-    (item) => item.department === selectedDepartment,
-  );
+  const relevantColumns = ["Department", "Item", "Quantity"];
 
   return (
     <Container
       style={{
         marginTop: "20px",
-        maxWidth: "1200px",
+        maxWidth: "1000px",
         maxHeight: "1000px",
-        backgroundColor: "white",
+        // backgroundColor: "white",
         padding: "20px",
-        borderRadius: "12px",
+        // marginLeft:"-100px"
+        // borderRadius: "12px",
       }}
     >
       <Text
@@ -157,7 +104,6 @@ export default function Inventory() {
       >
         <Group spacing="md">
           <Button
-            style={{ fontSize: "14px" }}
             variant="filled"
             color="blue"
             onClick={handleTransferClick}
@@ -184,7 +130,6 @@ export default function Inventory() {
           ))}
 
           <Button
-            style={{ fontSize: "14px" }}
             variant="filled"
             color="blue"
             onClick={openAddProductModal}
@@ -198,70 +143,40 @@ export default function Inventory() {
       <Paper
         shadow="xs"
         p="lg"
-        style={{
-          borderRadius: "12px",
-          marginLeft: "190px",
-        }}
+        style={{ borderRadius: "12px", marginLeft: "81px", width: "800px" }}
       >
         <div style={{ overflowX: "auto" }}>
           <Table striped highlightOnHover verticalSpacing="md">
             <thead>
               <tr>
-                <th
-                  style={{
-                    fontSize: "20px",
-                    padding: "16px 8px 16px 8px", // Reduced left padding
-                    textAlign: "left", // Align text to the left
-                  }}
-                >
-                  Product
-                </th>
-                <th
-                  style={{
-                    fontSize: "20px",
-                    padding: "16px 8px 16px 8px", // Adjust padding for left alignment
-                    textAlign: "left",
-                  }}
-                >
-                  Quantity
-                </th>
-                <th
-                  style={{
-                    fontSize: "20px",
-                    padding: "16px 8px 16px 8px", // Adjust padding
-                    textAlign: "left",
-                  }}
-                >
-                  Price
-                </th>
-                <th
-                  style={{
-                    fontSize: "20px",
-                    padding: "16px 8px 16px 8px", // Adjust padding
-                    textAlign: "left",
-                  }}
-                >
-                  Last Updated
-                </th>
+                {relevantColumns.map((col) => (
+                  <th key={col} style={{ fontSize: "20px" }}>
+                    {col.charAt(0).toUpperCase() + col.slice(1)}
+                  </th>
+                ))}
               </tr>
             </thead>
             <tbody>
-              {filteredData.map((item, index) => (
-                <tr key={index}>
-                  <td style={{ padding: "16px", fontSize: "14px" }}>
-                    {item.product}
-                  </td>
-                  <td style={{ padding: "16px", fontSize: "14px" }}>
-                    {item.quantity}
-                  </td>
-                  <td style={{ padding: "16px", fontSize: "14px" }}>
-                    ${item.price}
-                  </td>
-                  <td style={{ padding: "16px", fontSize: "14px" }}>
-                    {item.lastUpdated}
+              {loading ? (
+                <tr>
+                  <td
+                    colSpan={relevantColumns.length}
+                    style={{ textAlign: "center" }}
+                  >
+                    Loading data...
                   </td>
                 </tr>
-              ))}
+              ) : (
+                inventoryData.map((item, index) => (
+                  <tr key={index}>
+                    <td style={{ textAlign: "center" }}>
+                      {item.department_name}
+                    </td>
+                    <td style={{ textAlign: "center" }}>{item.item_name}</td>
+                    <td style={{ textAlign: "center" }}>{item.quantity}</td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </Table>
         </div>
