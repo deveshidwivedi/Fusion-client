@@ -193,11 +193,13 @@ export default function HostelInventory() {
       </div>
 
       <Paper
-        shadow="xs"
+        shadow={false}
         p="lg"
         style={{
           borderRadius: "12px",
           marginLeft: "190px",
+          backgroundColor: "transparent",
+          boxShadow: "none",
         }}
       >
         <div style={{ overflowX: "auto" }}>
