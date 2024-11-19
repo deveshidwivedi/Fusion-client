@@ -1,96 +1,82 @@
-import React, { useState } from "react";
-import "../styles/transferProduct.css";
+
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import '../styles/transferProduct.css';
 
 function TransferProduct() {
-  const [requests] = useState([
-    { department: "ECE", item: "Laptop", quantity: 10 },
-    // Add more request objects if needed
-  ]);
+  const { register, handleSubmit, formState: { errors } } = useForm();
+
+  const onSubmit = (data) => {
+   
+    console.log(data);
+  };
 
   return (
-    <div className="container">
-      {/* Main content */}
-      <div className="content">
-        {/* <div className="breadcrumb">
-          <p>Overall Inventory {'>'} CSE {'>'} Transfer</p>
-        </div> */}
+    <div className="add-product-container">
+      <h2>Transfer Product</h2>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <label>
+          Product Name
+          <span className="required">*</span>
+        </label>
+        <input
+          type="text"
+          {...register('productName', { required: 'Product Name is required' })}
+          placeholder="Enter Product Name"
+        />
+        {errors.productName && <p className="error-message">{errors.productName.message}</p>}
 
-        <div className="table-container">
-          <h2>Transfer Requests</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>Department</th>
-                <th>Item</th>
-                <th>Quantity</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {requests.map((request, index) => (
-                <tr key={index}>
-                  <td>{request.department}</td>
-                  <td>{request.item}</td>
-                  <td>{request.quantity}</td>
-                  <td>
-                    <input type="checkbox" />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <label>
+          Quantity
+          <span className="required">*</span>
+        </label>
+        <input
+          type="number"
+          {...register('quantity', {
+            required: 'Quantity is required',
+            min: { value: 1, message: 'Quantity must be at least 1' }
+          })}
+          placeholder="Enter Quantity"
+        />
+        {errors.quantity && <p className="error-message">{errors.quantity.message}</p>}
 
-        {/* Transfer Form */}
-        <div className="form-container">
-          <h2>Process Transfer</h2>
-          <form>
-  <div className="form-group">
-    <label htmlFor="product-name">Product Name</label>
-    <input
-      type="text"
-      id="product-name"
-      placeholder="Enter Product Name"
-      required
-    />
-  </div>
+        <label>
+          Category
+          <span className="required">*</span>
+          </label>
+        <input
+          type="text"
+          {...register('category', { required: 'Category is required' })}
+          placeholder="Enter Category"
+        />
+        {errors.category && <p className="error-message">{errors.category.message}</p>}
 
-  <div className="form-group">
-    <label htmlFor="quantity">Quantity</label>
-    <input
-      type="number"
-      id="quantity"
-      placeholder="Enter Quantity"
-      required
-      min="1"
-    />
-  </div>
+        <label>
+          To Department
+          <span className="required">*</span>
+        </label>
+        <select {...register('todepartment', { required: 'Department is required' })}>
+          <option value="">Select Department</option>
+          <option value="CSE">CSE</option>
+          <option value="ECE">ECE</option>
+          <option value="ME">ME</option>
+          <option value="SM">SM</option>
+          <option value="DS">DS</option>
+          {/* Add more departments if needed */}
+        </select>
+        {errors.todepartment && <p className="error-message">{errors.todepartment.message}</p>}
 
-  <div className="form-group">
-    <label htmlFor="from-department">From Department</label>
-    <select id="from-department" required>
-      <option value="">Select Department</option>
-      <option value="CSE">CSE</option>
-      <option value="ECE">ECE</option>
-      <option value="ME">ME</option>
-      <option value="SM">SM</option>
-    </select>
-  </div>
+        <label>Description</label>
+        <textarea
+          {...register('description', { required: 'Description is required' })}
+          placeholder="Enter Description of Product"
+        ></textarea>
+        {errors.description && <p className="error-message">{errors.description.message}</p>}
 
-  <div className="form-group">
-    <label htmlFor="to-department">To Department</label>
-    <select id="to-department" required>
-      <option value="">Select Department</option>
-      <option value="CSE">CSE</option>
-      <option value="ECE">ECE</option>
-    </select>
-  </div>
-
-  <button type="submit" className="form-button">Transfer</button>
-</form>
-
-        </div>
-      </div>
+        <center>
+          <button type="submit">Transfer Product</button>
+        </center>
+      </form>
     </div>
   );
 }
