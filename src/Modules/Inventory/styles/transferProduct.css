@@ -1,118 +1,74 @@
-/* General container for the page layout */
-.container {
-    display: flex;
-    flex-direction: column; /* To center content vertically */
-    align-items: center; /* Center horizontally */
-    block-size: 100vh; /* Full height */
-    inline-size: 100vw; /* Full screen width */
-    padding: 20px;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-}
 
-/* Main content styles */
-.content {
-    inline-size: 80vw; /* Control the width to be 80% of the viewport */
-    max-inline-size: 1200px; /* Maximum width limit */
-    padding: 30px;
+  /* html, body {
+    margin: 0;
+    padding: 0;
+     height: 100vh;
+    width: 100vw;
+    overflow: hidden; 
     display: flex;
-    flex-direction: row;
-    justify-content: space-between; /* Spacing between table and form */
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f0f0;
+  } */
+  .add-product-container {
+    background-color: #f9f9f9;
+    padding: 30px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    max-inline-size: 600px;
+    margin: auto;
     margin-block-start: 50px;
-    gap: 70px; /* Space between table and form */
-}
-
-/* Table container styles */
-.table-container {
-    flex: 1;
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-inline-start: 5px solid #007bff; /* Blue border on the left */
-    inline-size: 100%; /* Full width of its parent */
-}
-
-.table-container h2 {
-    margin-block-end: 25px;
-}
-
-.table-container table {
-    inline-size: 100%; /* Full width of the table */
-    border-collapse: collapse;
-}
-
-.table-container th, 
-.table-container td {
-    padding: 20px;
-    text-align: start;
-    border-block-end: 1px solid #ddd;
-}
-
-.table-container th {
-    background-color: #f8f9fa;
-    font-size: 16px;
-    font-weight: bold;
-}
-
-.table-container td {
-    font-size: 14px;
-}
-
-.table-container input[type="checkbox"] {
-    inline-size: 20px;
-    block-size: 20px;
-}
-
-/* Form container styles */
-.form-container {
-    inline-size: 600px; /* Width of the form */
-    padding: 25px;
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.form-container h2 {
+  }
+  
+  .add-product-container h2 {
     margin-block-end: 20px;
-}
-
-.form-container .form-group {
-    margin-block-end: 15px;
-}
-
-.form-container .form-group label {
-    font-weight: 500;
-    margin-block-end: 5px;
+    font-size: 24px;
+    color: #444;
+    text-align: center;
+  }
+  
+  .add-product-container form label {
     display: block;
-}
-
-.form-container .form-group input,
-.form-container .form-group select {
+    margin-block-end: 10px;
+    font-weight: bold;
+  }
+  
+  .add-product-container form input, 
+  .add-product-container form select, 
+  .add-product-container form textarea {
     inline-size: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-}
-
-.form-container .form-group input:focus,
-.form-container .form-group select:focus {
-    border-color: #007bff;
-    outline: none;
-}
-
-.form-button {
-    background-color: #27282a;
+    padding: 12px;
+    margin-block-end: 20px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+  }
+  
+  .add-product-container form textarea {
+    resize: vertical;
+  }
+  
+  .add-product-container form button {
+    background-color: #007bff;
     color: white;
-    padding: 10px;
+    padding: 12px 20px;
     border: none;
-    border-radius: 4px;
-    font-size: 14px;
+    border-radius: 6px;
     cursor: pointer;
-    inline-size: 100%;
-}
-
-.form-button:hover {
+    font-size: 16px;
+  }
+  
+  .add-product-container form button:hover {
     background-color: #0056b3;
-}
+  }
+  
+  .required {
+    color: red; 
+    margin-left: 5px; 
+  }
+  
+  .error {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+  }
+  

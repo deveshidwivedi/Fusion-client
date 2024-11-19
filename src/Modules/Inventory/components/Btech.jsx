@@ -11,8 +11,9 @@ import {
   Select,
   Button,
 } from "@mantine/core";
-import { useNavigate } from "react-router-dom";
-import AddProduct from './AddProduct'; // Import the AddProduct component
+
+import AddProduct from './AddProduct'; 
+import TransferProduct from './TransferProduct'; 
 import "../styles/popupModal.css";
 
 
@@ -99,8 +100,8 @@ const data = [
 export default function Inventory() {
   const [selectedCategory, setSelectedCategory] = useState("CSE");
   const [sortOption, setSortOption] = useState("Last Updated");
-  const [showAddProductModal, setShowAddProductModal] = useState(false); // State to control modal visibility
-  const navigate = useNavigate();
+  const [showAddProductModal, setShowAddProductModal] = useState(false); 
+  const [showTransferProductModal, setShowTransferProductModal] = useState(false); 
 
   const categories = [
     { label: "CSE", value: "CSE" },
@@ -149,15 +150,21 @@ export default function Inventory() {
       )}
     </React.Fragment>
   ));
-  const handleTransferClick = () => {
-    navigate("/inventory/transfer");
-  };
+ 
   const openAddProductModal = () => {
     setShowAddProductModal(true);  // Show the modal when "Add Product" is clicked
   };
 
   const closeAddProductModal = () => {
     setShowAddProductModal(false);  // Close the modal when needed
+  };
+  
+  const openTransferProductModal = () => {
+    setShowTransferProductModal(true);  // Show the modal when "Add Product" is clicked
+  };
+
+  const closeTransferProductModal = () => {
+    setShowTransferProductModal(false);  // Close the modal when needed
   };
 
   return (
@@ -210,8 +217,8 @@ export default function Inventory() {
               30252
             </Badge>
           </div>
-          <Button color="blue" size="lg" style={{ marginLeft: "auto" }} onClick={handleTransferClick}>
-            Transfer Item
+          <Button color="blue" size="lg" style={{ marginLeft: "auto" }} onClick={openTransferProductModal}>
+            Transfer Product
           </Button>
         </Group>
       </Paper>
@@ -349,6 +356,17 @@ export default function Inventory() {
                X
              </button>
              <AddProduct /> 
+           </div>
+         </>
+       )}
+         {showTransferProductModal && (
+        <>
+           <div className="overlay" onClick={closeTransferProductModal}></div>
+           <div className="modal">
+             <button className="close-button" onClick={closeTransferProductModal}>
+               X
+             </button>
+             <TransferProduct /> 
            </div>
          </>
        )}
