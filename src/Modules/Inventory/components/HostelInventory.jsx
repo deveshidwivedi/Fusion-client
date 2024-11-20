@@ -63,7 +63,7 @@ export default function HostelInventory() {
 
   const closeAddProductModal = () => {
     setShowAddProductModal(false);
-    fetchDepartmentData(); // Refresh data after adding product
+    fetchDepartmentData(); 
   };
 
   const openTransferProductModal = () => {
@@ -113,7 +113,7 @@ export default function HostelInventory() {
             onClick={openTransferProductModal}
             size="md"
           >
-            Transfer Item
+            Transfer Product
           </Button>
 
           {departments.map((dept, index) => (
