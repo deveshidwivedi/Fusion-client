@@ -11,12 +11,13 @@ import InventoryDashboard from "./inventoryDashboard";
 import HostelInventory from "./HostelInventory";
 import Reports from "./Reports";
 import Department from "./Bdes";
+import { Section } from "lucide-react";
 
-const sections = ["Overall Inventory", "Hostel", "Reports", "Department"];
+const sections = ["Overall Inventory", "Section", "Reports", "Department"];
 
 const sectionComponents = {
   "Overall Inventory": InventoryDashboard,
-  Hostel: HostelInventory,
+  Section: HostelInventory,
   Reports,
   Department,
 };

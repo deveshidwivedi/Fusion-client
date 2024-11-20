@@ -22,10 +22,10 @@ export default function Inventory() {
   ];
 
   const fetchDepartmentData = async () => {
-    const token = localStorage.getItem("authToken");
+    const token = localStorage.getItem('authToken');
 
     if (!token) {
-      alert("Please log in to add a product");
+      alert('Please log in to add a product');
       return;
     }
 
@@ -33,23 +33,23 @@ export default function Inventory() {
       const response = await fetch(
         `http://127.0.0.1:8000/inventory/api/departments/?department=${selectedDepartment}`,
         {
-          method: "GET",
+          method: 'GET',
           headers: {
             Authorization: `Token ${token}`,
           },
-        },
+        }
       );
 
       if (!response.ok) {
-        throw new Error("Failed to fetch department data");
+        throw new Error('Failed to fetch department data');
       }
 
       const data = await response.json();
-      console.log("Department data:", data);
+      console.log('Department data:', data);
       setInventoryData(data);
       setLoading(false);
     } catch (error) {
-      console.error("Error fetching department data:", error);
+      console.error('Error fetching department data:', error);
       setLoading(false);
     }
   };
@@ -58,6 +58,7 @@ export default function Inventory() {
     setLoading(true);
     fetchDepartmentData(selectedDepartment);
   }, [selectedDepartment]);
+
 
   // const handleTransferClick = () => {
   //   navigate("/inventory/transfer");
@@ -78,7 +79,7 @@ export default function Inventory() {
     setShowTransferProductModal(false);  // Close the modal when needed
   };
 
-  const relevantColumns = ["Department", "Item", "Quantity"];
+  const relevantColumns = ["Item", "Quantity"];
 
   return (
     <Container
@@ -178,9 +179,9 @@ export default function Inventory() {
               ) : (
                 inventoryData.map((item, index) => (
                   <tr key={index}>
-                    <td style={{ textAlign: "center" }}>
+                    {/* <td style={{ textAlign: "center" }}>
                       {item.department_name}
-                    </td>
+                    </td> */}
                     <td style={{ textAlign: "center" }}>{item.item_name}</td>
                     <td style={{ textAlign: "center" }}>{item.quantity}</td>
                   </tr>
@@ -253,13 +254,16 @@ export default function Inventory() {
                 overflow: "hidden", // Prevent scrolling inside modal
               }}
             >
-              <AddProduct />
+              <AddProduct
+                onSuccess={closeAddProductModal}
+                selectedDepartment={selectedDepartment}
+              />
             </div>
           </div>
         </>
       )}
-            
-{showTransferProductModal && (
+
+      {showTransferProductModal && (
         <>
           <div
             style={{

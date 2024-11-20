@@ -18,6 +18,12 @@ export default function HostelInventory() {
     { label: "H4", value: "H4" },
     { label: "Panini", value: "Panini" },
     { label: "Maa Saraswati", value: "Maa Saraswati" },
+    { label: "SAC", value: "SAC" },
+    { label: "GymKhana", value: "GymKhana" },
+    { label: "IWD", value: "IWD" },
+    { label: "Mess", value: "Mess" },
+    { label: "Academic", value: "Academic" },
+    { label: "VH", value: "VH" },
   ];
 
   const fetchDepartmentData = async () => {
@@ -28,15 +34,17 @@ export default function HostelInventory() {
       return;
     }
 
+    setLoading(true); // Start loading when the request is sent
+
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/inventory/api/departments/?department=${selectedDepartment}`,
+        `http://127.0.0.1:8000/inventory/api/departments/?section=${selectedDepartment}`,
         {
           method: "GET",
           headers: {
             Authorization: `Token ${token}`,
           },
-        },
+        }
       );
 
       if (!response.ok) {
@@ -53,27 +61,14 @@ export default function HostelInventory() {
   };
 
   useEffect(() => {
-    setLoading(true);
-    fetchDepartmentData();
+    fetchDepartmentData(); // Fetch data whenever the selected department changes
   }, [selectedDepartment]);
 
-  const openAddProductModal = () => {
-    setShowAddProductModal(true);
-  };
+  const openAddProductModal = () => setShowAddProductModal(true);
+  const closeAddProductModal = () => setShowAddProductModal(false);
 
-  const closeAddProductModal = () => {
-    setShowAddProductModal(false);
-    fetchDepartmentData(); // Refresh data after adding product
-  };
-
-  const openTransferProductModal = () => {
-    setShowTransferProductModal(true);
-  };
-
-  const closeTransferProductModal = () => {
-    setShowTransferProductModal(false);
-    fetchDepartmentData(); // Refresh data after transfer
-  };
+  const openTransferProductModal = () => setShowTransferProductModal(true);
+  const closeTransferProductModal = () => setShowTransferProductModal(false);
 
   return (
     <Container
@@ -95,7 +90,7 @@ export default function HostelInventory() {
           color: "#228BE6",
         }}
       >
-        {selectedDepartment} Hostel Inventory
+        {selectedDepartment} Inventory
       </Text>
 
       <div
@@ -106,16 +101,6 @@ export default function HostelInventory() {
         }}
       >
         <Group spacing="md">
-          <Button
-            style={{ fontSize: "14px" }}
-            variant="filled"
-            color="blue"
-            onClick={openTransferProductModal}
-            size="md"
-          >
-            Transfer Item
-          </Button>
-
           {departments.map((dept, index) => (
             <Button
               key={index}
@@ -132,17 +117,36 @@ export default function HostelInventory() {
               {dept.label}
             </Button>
           ))}
-
-          <Button
-            style={{ fontSize: "14px" }}
-            variant="filled"
-            color="blue"
-            size="md"
-            onClick={openAddProductModal}
-          >
-            Add Product
-          </Button>
         </Group>
+      </div>
+
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          marginBottom: "20px",
+          gap: "10px",
+        }}
+      >
+        <Button
+          style={{ fontSize: "14px" }}
+          variant="filled"
+          color="blue"
+          onClick={openTransferProductModal}
+          size="md"
+        >
+          Transfer Item
+        </Button>
+
+        <Button
+          style={{ fontSize: "14px" }}
+          variant="filled"
+          color="blue"
+          size="md"
+          onClick={openAddProductModal}
+        >
+          Add Product
+        </Button>
       </div>
 
       <Paper

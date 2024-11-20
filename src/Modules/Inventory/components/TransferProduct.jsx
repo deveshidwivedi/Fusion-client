@@ -6,10 +6,50 @@ import '../styles/transferProduct.css';
 function TransferProduct() {
   const { register, handleSubmit, formState: { errors } } = useForm();
 
-  const onSubmit = (data) => {
-   
-    console.log(data);
+  const onSubmit = async (data) => {
+    try {
+      const token = localStorage.getItem('authToken');
+      const response = await fetch('http://127.0.0.1:8000/inventory/api/transfer_product/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Token ${token}`,
+        },
+        body: JSON.stringify({
+          productName: data.productName,
+          quantity: data.quantity,
+          fromDepartment: selectedDepartment, // Assuming selectedDepartment is the current department
+          toDepartment: data.todepartment,
+          description: data.description,
+        }),
+      });
+  
+      if (response.ok) {
+        const result = await response.json();
+        console.log('Product transferred successfully:', result);
+        // Update the inventory table with new data
+        setInventoryData((prevData) => {
+          const updatedData = [...prevData];
+          const index = updatedData.findIndex(
+            (item) => item.item_name === result.item_name && item.department_name === result.department_name
+          );
+          if (index !== -1) {
+            updatedData[index] = result; // Update the existing item
+          } else {
+            updatedData.push(result); // Add new item to the table
+          }
+          return updatedData;
+        });
+      } else {
+        const error = await response.json();
+        alert('Error: ' + error.detail);
+      }
+    } catch (error) {
+      console.error('Error transferring product:', error);
+      alert('Something went wrong. Please try again.');
+    }
   };
+  
 
   return (
     <div className="add-product-container">
