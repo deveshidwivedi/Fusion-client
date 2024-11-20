@@ -1,11 +1,11 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import "../styles/addProduct.css";
 
-function AddProduct() {
+function AddProduct({ onSuccess, selectedDepartment }) {
   const [formData, setFormData] = useState({
     productName: "",
     quantity: "",
-    department: "",
   });
 
   const handleChange = (e) => {
@@ -23,7 +23,7 @@ function AddProduct() {
       return;
     }
 
-    if (!formData.productName || !formData.quantity || !formData.department) {
+    if (!formData.productName || !formData.quantity) {
       alert("Please fill in all the fields");
       return;
     }
@@ -39,15 +39,14 @@ function AddProduct() {
           },
           body: JSON.stringify({
             item_name: formData.productName,
-            quantity: formData.quantity,
-            department_name: formData.department,
+            quantity: parseInt(formData.quantity, 10), // Add radix parameter
+            department_name: selectedDepartment,
           }),
         },
       );
 
       if (!response.ok) {
         const errorData = await response.json();
-        console.error("Error details:", errorData);
         throw new Error(
           `Failed to add product: ${errorData.detail || response.statusText}`,
         );
@@ -56,11 +55,9 @@ function AddProduct() {
       const data = await response.json();
       console.log("Product added:", data);
       alert("Product added successfully!");
-      setFormData({
-        productName: "",
-        quantity: "",
-        department: "",
-      });
+      if (onSuccess) {
+        onSuccess();
+      }
     } catch (error) {
       console.error("Error occurred:", error);
       alert(`Error occurred: ${error.message}`);
@@ -95,23 +92,6 @@ function AddProduct() {
           />
         </div>
 
-        <div>
-          <label htmlFor="department">Department</label>
-          <select
-            id="department"
-            name="department"
-            value={formData.department}
-            onChange={handleChange}
-          >
-            <option value="">Select Department</option>
-            <option value="CSE">CSE</option>
-            <option value="ECE">ECE</option>
-            <option value="ME">ME</option>
-            <option value="SM">SM</option>
-            <option value="DS">DS</option>
-          </select>
-        </div>
-
         <center>
           <button type="submit">Add Product</button>
         </center>
@@ -119,5 +99,10 @@ function AddProduct() {
     </div>
   );
 }
+
+AddProduct.propTypes = {
+  onSuccess: PropTypes.func,
+  selectedDepartment: PropTypes.string.isRequired,
+};
 
 export default AddProduct;

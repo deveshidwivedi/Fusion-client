@@ -1,96 +1,16 @@
-import React, { useState } from "react";
-import {
-  Table,
-  Container,
-  Group,
-  Paper,
-  Button,
-  Text,
-  // Select,
-} from "@mantine/core";
+import React, { useState, useEffect } from "react";
+import { Table, Container, Group, Paper, Button, Text } from "@mantine/core";
 
 import AddProduct from "./AddProduct";
 import TransferProduct from "./TransferProduct";
 
-const data = [
-  {
-    product: "Chairs",
-    quantity: 80,
-    price: 480,
-    department: "H1",
-    lastUpdated: "29-03-2024",
-  },
-  {
-    product: "Tables",
-    quantity: 50,
-    price: 1000,
-    department: "H1",
-    lastUpdated: "29-03-2024",
-  },
-  {
-    product: "Lights",
-    quantity: 30,
-    price: 300,
-    department: "H3",
-    lastUpdated: "14-03-2024",
-  },
-  {
-    product: "Bulbs",
-    quantity: 100,
-    price: 50,
-    department: "H3",
-    lastUpdated: "26-03-2024",
-  },
-  {
-    product: "Chairs",
-    quantity: 80,
-    price: 480,
-    department: "H4",
-    lastUpdated: "29-03-2024",
-  },
-  {
-    product: "Tables",
-    quantity: 50,
-    price: 1000,
-    department: "H4",
-    lastUpdated: "29-03-2024",
-  },
-  {
-    product: "Lights",
-    quantity: 30,
-    price: 300,
-    department: "Panini",
-    lastUpdated: "14-03-2024",
-  },
-  {
-    product: "Bulbs",
-    quantity: 100,
-    price: 50,
-    department: "Panini",
-    lastUpdated: "26-03-2024",
-  },
-  {
-    product: "Chairs",
-    quantity: 50,
-    price: 400,
-    department: "Maa Saraswati",
-    lastUpdated: "01-04-2024",
-  },
-  {
-    product: "Tables",
-    quantity: 20,
-    price: 600,
-    department: "Maa Saraswati",
-    lastUpdated: "02-04-2024",
-  },
-];
-
 export default function HostelInventory() {
   const [selectedDepartment, setSelectedDepartment] = useState("H1");
-  const sortOption = "Last Updated";
+  const [inventoryData, setInventoryData] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [showAddProductModal, setShowAddProductModal] = useState(false);
-  const [showTransferProductModal, setShowTransferProductModal] = useState(false);
-  
+  const [showTransferProductModal, setShowTransferProductModal] =
+    useState(false);
 
   const departments = [
     { label: "H1", value: "H1" },
@@ -100,18 +20,42 @@ export default function HostelInventory() {
     { label: "Maa Saraswati", value: "Maa Saraswati" },
   ];
 
+  const fetchDepartmentData = async () => {
+    const token = localStorage.getItem("authToken");
 
-  const filteredData = data
-    .filter((item) => item.department === selectedDepartment)
-    .sort((a, b) => {
-      if (sortOption === "Last Updated") {
-        return new Date(b.lastUpdated) - new Date(a.lastUpdated);
+    if (!token) {
+      alert("Please log in to view inventory");
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `http://127.0.0.1:8000/inventory/api/departments/?department=${selectedDepartment}`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch department data");
       }
-      if (sortOption === "price") {
-        return a.price - b.price;
-      }
-      return 0;
-    });
+
+      const data = await response.json();
+      setInventoryData(data);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching department data:", error);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    setLoading(true);
+    fetchDepartmentData();
+  }, [selectedDepartment]);
 
   const openAddProductModal = () => {
     setShowAddProductModal(true);
@@ -119,6 +63,7 @@ export default function HostelInventory() {
 
   const closeAddProductModal = () => {
     setShowAddProductModal(false);
+    fetchDepartmentData(); // Refresh data after adding product
   };
 
   const openTransferProductModal = () => {
@@ -127,6 +72,7 @@ export default function HostelInventory() {
 
   const closeTransferProductModal = () => {
     setShowTransferProductModal(false);
+    fetchDepartmentData(); // Refresh data after transfer
   };
 
   return (
@@ -167,7 +113,7 @@ export default function HostelInventory() {
             onClick={openTransferProductModal}
             size="md"
           >
-            Transfer Product
+            Transfer Item
           </Button>
 
           {departments.map((dept, index) => (
@@ -213,62 +159,41 @@ export default function HostelInventory() {
           <Table striped highlightOnHover verticalSpacing="md">
             <thead>
               <tr>
-                <th
-                  style={{
-                    fontSize: "24px",
-                    padding: "16px 16px 16px 8px",
-                    textAlign: "left",
-                    // marginLeft:"-100px"
-                  }}
-                >
-                  Product
-                </th>
-                <th
-                  style={{
-                    fontSize: "24px",
-                    padding: "16px 16px 16px 2px",
-                    textAlign: "left",
-                  }}
-                >
-                  Quantity
-                </th>
-                <th
-                  style={{
-                    fontSize: "24px",
-                    padding: "16px 16px 16px 14px",
-                    textAlign: "left",
-                  }}
-                >
-                  Price
-                </th>
-                <th
-                  style={{
-                    fontSize: "24px",
-                    padding: "16px 16px 16px 2px",
-                    textAlign: "left",
-                  }}
-                >
-                  Last Updated
-                </th>
+                <th style={{ fontSize: "24px", padding: "16px" }}>Item</th>
+                <th style={{ fontSize: "24px", padding: "16px" }}>Quantity</th>
               </tr>
             </thead>
             <tbody>
-              {filteredData.map((item, index) => (
-                <tr key={index}>
-                  <td style={{ padding: "16px", fontSize: "14px" }}>
-                    {item.product}
-                  </td>
-                  <td style={{ padding: "16px", fontSize: "14px" }}>
-                    {item.quantity}
-                  </td>
-                  <td style={{ padding: "16px", fontSize: "14px" }}>
-                    ${item.price}
-                  </td>
-                  <td style={{ padding: "16px", fontSize: "14px" }}>
-                    {item.lastUpdated}
+              {loading ? (
+                <tr>
+                  <td colSpan={2} style={{ textAlign: "center" }}>
+                    Loading data...
                   </td>
                 </tr>
-              ))}
+              ) : (
+                inventoryData.map((item, index) => (
+                  <tr key={index}>
+                    <td
+                      style={{
+                        padding: "16px",
+                        fontSize: "14px",
+                        textAlign: "center",
+                      }}
+                    >
+                      {item.item_name} {/* Change 'product' to 'item' */}
+                    </td>
+                    <td
+                      style={{
+                        padding: "16px",
+                        fontSize: "14px",
+                        textAlign: "center",
+                      }}
+                    >
+                      {item.quantity}
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </Table>
         </div>
@@ -295,7 +220,7 @@ export default function HostelInventory() {
                 closeAddProductModal();
               }
             }}
-            aria-label="Close Add Product Modal Background"
+            aria-label="Close Add Item Modal Background"
           />
 
           <div
@@ -310,7 +235,7 @@ export default function HostelInventory() {
               boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
               borderRadius: "8px",
               zIndex: 1001,
-              overflow: "hidden", // Ensure no scrollbar appears
+              overflow: "hidden",
             }}
           >
             <button
@@ -333,17 +258,19 @@ export default function HostelInventory() {
               style={{
                 margin: "-80px 0 -65px 0",
                 height: "835px",
-                overflow: "hidden", // Prevent scrolling inside modal
+                overflow: "hidden",
               }}
             >
-              <AddProduct />
+              <AddProduct
+                onSuccess={closeAddProductModal}
+                selectedDepartment={selectedDepartment}
+              />
             </div>
           </div>
         </>
       )}
 
-      
-{showTransferProductModal && (
+      {showTransferProductModal && (
         <>
           <div
             style={{
@@ -364,7 +291,7 @@ export default function HostelInventory() {
                 closeTransferProductModal();
               }
             }}
-            aria-label="Close Transfer Product Modal Background"
+            aria-label="Close Transfer Item Modal Background"
           />
 
           <div
@@ -379,7 +306,7 @@ export default function HostelInventory() {
               boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
               borderRadius: "8px",
               zIndex: 1001,
-              overflow: "hidden", // Ensure no scrollbar appears
+              overflow: "hidden",
             }}
           >
             <button
@@ -402,10 +329,13 @@ export default function HostelInventory() {
               style={{
                 margin: "-80px 0 -65px 0",
                 height: "835px",
-                overflow: "hidden", // Prevent scrolling inside modal
+                overflow: "hidden",
               }}
             >
-              <TransferProduct />
+              <TransferProduct
+                onSuccess={closeTransferProductModal}
+                selectedDepartment={selectedDepartment}
+              />
             </div>
           </div>
         </>
