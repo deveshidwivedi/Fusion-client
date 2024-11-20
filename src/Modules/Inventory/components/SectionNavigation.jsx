@@ -11,15 +11,22 @@ import InventoryDashboard from "./inventoryDashboard";
 import HostelInventory from "./HostelInventory";
 import Reports from "./Reports";
 import Department from "./Bdes";
-import { Section } from "lucide-react";
+import InventoryRequests from "./InventoryRequests";
 
-const sections = ["Overall Inventory", "Section", "Reports", "Department"];
+const sections = [
+  "Overall Inventory",
+  "Section",
+  "Reports",
+  "Department",
+  "Requests",
+];
 
 const sectionComponents = {
   "Overall Inventory": InventoryDashboard,
   Section: HostelInventory,
   Reports,
   Department,
+  Requests: InventoryRequests,
 };
 
 export default function SectionNavigation() {
