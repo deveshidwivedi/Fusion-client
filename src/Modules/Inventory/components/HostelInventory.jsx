@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Table, Container, Group, Paper, Button, Text } from "@mantine/core";
-
 import AddProduct from "./AddProduct";
 import TransferProduct from "./TransferProduct";
-import CustomBreadcrumbs from "../../../components/Breadcrumbs";
 
 export default function HostelInventory() {
   const [selectedDepartment, setSelectedDepartment] = useState("H1");
   const [inventoryData, setInventoryData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [showAddProductModal, setShowAddProductModal] = useState(false);
-  const [showTransferProductModal, setShowTransferProductModal] =
-    useState(false);
+  const [showTransferProductModal, setShowTransferProductModal] = useState(false);
 
   const departments = [
     { label: "H1", value: "H1" },
@@ -73,6 +70,13 @@ export default function HostelInventory() {
 
   return (
     <>
+      {/* Breadcrumb */}
+      <Text style={{marginLeft:"70px", fontSize:"16px"}} color="dimmed">
+        <span style={{ cursor: "pointer" }} onClick={() => setSelectedDepartment('')}>
+          Sections
+        </span>
+        {" > "} <span>{selectedDepartment}</span>
+      </Text>
       <Container
         style={{
           marginTop: "20px",
@@ -83,6 +87,7 @@ export default function HostelInventory() {
           borderRadius: "12px",
         }}
       >
+
         <Text
           align="center"
           style={{
@@ -186,7 +191,7 @@ export default function HostelInventory() {
                           textAlign: "center",
                         }}
                       >
-                        {item.item_name} {/* Change 'product' to 'item' */}
+                        {item.item_name}
                       </td>
                       <td
                         style={{
@@ -228,7 +233,6 @@ export default function HostelInventory() {
               }}
               aria-label="Close Add Item Modal Background"
             />
-
             <div
               style={{
                 position: "fixed",
@@ -259,7 +263,6 @@ export default function HostelInventory() {
               >
                 X
               </button>
-
               <div
                 style={{
                   margin: "-80px 0 -65px 0",
@@ -301,7 +304,6 @@ export default function HostelInventory() {
               }}
               aria-label="Close Transfer Item Modal Background"
             />
-
             <div
               style={{
                 position: "fixed",
@@ -332,7 +334,6 @@ export default function HostelInventory() {
               >
                 X
               </button>
-
               <div
                 style={{
                   margin: "-80px 0 -65px 0",
@@ -343,6 +344,8 @@ export default function HostelInventory() {
                 <TransferProduct
                   onSuccess={closeTransferProductModal}
                   selectedDepartment={selectedDepartment}
+                  val="sections"
+                  name="section_name"
                 />
               </div>
             </div>

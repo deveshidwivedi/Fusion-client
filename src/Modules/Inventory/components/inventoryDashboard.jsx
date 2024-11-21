@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Text, Box, Grid, Card, Group, ThemeIcon } from "@mantine/core";
+import { Text, Box, Grid, Card, Group, ThemeIcon, Breadcrumbs } from "@mantine/core";
 import { House, Package } from "@phosphor-icons/react";
 import { Section } from "lucide-react";
-import CustomBreadcrumbs from "../../../components/Breadcrumbs";
 
 function InventoryDashboard() {
   const [inventoryItems, setInventoryItems] = useState([
@@ -49,7 +48,14 @@ function InventoryDashboard() {
 
   return (
     <>
-      {/* <CustomBreadcrumbs /> */}
+      {/* Breadcrumb */}
+      <Text style={{ marginLeft: "70px", fontSize: "16px" }} color="dimmed">
+        <span style={{ cursor: "pointer" }}>
+          Overview
+        </span>
+        {/* {" > "} <span>{selectedDepartment}</span> */}
+      </Text>
+
       <Box p="md">
         <Card
           shadow="sm"
