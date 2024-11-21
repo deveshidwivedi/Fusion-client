@@ -117,7 +117,7 @@ export default function SectionNavigation() {
           </Button>
         </Flex>
 
-        <Flex align="center" mt="md" gap="1rem">
+        {/* <Flex align="center" mt="md" gap="1rem">
           <Select
             placeholder="Sort By"
             data={categories}
@@ -125,7 +125,7 @@ export default function SectionNavigation() {
             onChange={setSortedBy}
             icon={<SortAscending />}
           />
-        </Flex>
+        </Flex> */}
       </Flex>
 
       <div style={{ marginTop: "2rem" }}>
