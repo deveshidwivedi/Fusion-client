@@ -1,10 +1,10 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import '../styles/transferProduct.css';
 
 function TransferProduct() {
   const { register, handleSubmit, formState: { errors } } = useForm();
+  const [inventoryData, setInventoryData] = useState([]); // State to manage inventory data
 
   const onSubmit = async (data) => {
     try {
@@ -17,39 +17,38 @@ function TransferProduct() {
         },
         body: JSON.stringify({
           productName: data.productName,
-          quantity: data.quantity,
-          fromDepartment: selectedDepartment, // Assuming selectedDepartment is the current department
-          toDepartment: data.todepartment,
-          description: data.description,
+          quantity: parseInt(data.quantity, 10),
+          fromDepartment: data.fromDepartment,
+          toDepartment: data.toDepartment,
         }),
       });
-  
+
       if (response.ok) {
         const result = await response.json();
         console.log('Product transferred successfully:', result);
-        // Update the inventory table with new data
+        alert('Product transferred successfully.');
+
         setInventoryData((prevData) => {
           const updatedData = [...prevData];
-          const index = updatedData.findIndex(
-            (item) => item.item_name === result.item_name && item.department_name === result.department_name
+          const existingIndex = updatedData.findIndex(
+            (item) => item.name === result.name && item.department === result.department.name
           );
-          if (index !== -1) {
-            updatedData[index] = result; // Update the existing item
+          if (existingIndex !== -1) {
+            updatedData[existingIndex] = result;
           } else {
-            updatedData.push(result); // Add new item to the table
+            updatedData.push(result);
           }
           return updatedData;
         });
       } else {
         const error = await response.json();
-        alert('Error: ' + error.detail);
+        alert('Error: ' + error.error || error.detail);
       }
     } catch (error) {
       console.error('Error transferring product:', error);
       alert('Something went wrong. Please try again.');
     }
   };
-  
 
   return (
     <div className="add-product-container">
@@ -74,44 +73,36 @@ function TransferProduct() {
           type="number"
           {...register('quantity', {
             required: 'Quantity is required',
-            min: { value: 1, message: 'Quantity must be at least 1' }
+            min: { value: 1, message: 'Quantity must be at least 1' },
           })}
           placeholder="Enter Quantity"
         />
         {errors.quantity && <p className="error-message">{errors.quantity.message}</p>}
 
         <label>
-          Category
+          From Department
           <span className="required">*</span>
-          </label>
+        </label>
         <input
           type="text"
-          {...register('category', { required: 'Category is required' })}
-          placeholder="Enter Category"
+          {...register('fromDepartment', { required: 'From Department is required' })}
+          placeholder="Enter From Department"
         />
-        {errors.category && <p className="error-message">{errors.category.message}</p>}
+        {errors.fromDepartment && <p className="error-message">{errors.fromDepartment.message}</p>}
 
         <label>
           To Department
           <span className="required">*</span>
         </label>
-        <select {...register('todepartment', { required: 'Department is required' })}>
+        <select {...register('toDepartment', { required: 'To Department is required' })}>
           <option value="">Select Department</option>
           <option value="CSE">CSE</option>
           <option value="ECE">ECE</option>
           <option value="ME">ME</option>
           <option value="SM">SM</option>
           <option value="DS">DS</option>
-          {/* Add more departments if needed */}
         </select>
-        {errors.todepartment && <p className="error-message">{errors.todepartment.message}</p>}
-
-        <label>Description</label>
-        <textarea
-          {...register('description', { required: 'Description is required' })}
-          placeholder="Enter Description of Product"
-        ></textarea>
-        {errors.description && <p className="error-message">{errors.description.message}</p>}
+        {errors.toDepartment && <p className="error-message">{errors.toDepartment.message}</p>}
 
         <center>
           <button type="submit">Transfer Product</button>
