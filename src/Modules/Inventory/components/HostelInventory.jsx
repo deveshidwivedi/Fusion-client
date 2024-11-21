@@ -3,6 +3,7 @@ import { Table, Container, Group, Paper, Button, Text } from "@mantine/core";
 
 import AddProduct from "./AddProduct";
 import TransferProduct from "./TransferProduct";
+import CustomBreadcrumbs from "../../../components/Breadcrumbs";
 
 export default function HostelInventory() {
   const [selectedDepartment, setSelectedDepartment] = useState("H1");
@@ -71,281 +72,283 @@ export default function HostelInventory() {
   const closeTransferProductModal = () => setShowTransferProductModal(false);
 
   return (
-    <Container
-      style={{
-        marginTop: "20px",
-        maxWidth: "1200px",
-        maxHeight: "1000px",
-        backgroundColor: "white",
-        padding: "20px",
-        borderRadius: "12px",
-      }}
-    >
-      <Text
-        align="center"
+    <>
+      <Container
         style={{
-          fontSize: "26px",
-          marginBottom: "20px",
-          fontWeight: 600,
-          color: "#228BE6",
-        }}
-      >
-        {selectedDepartment} Inventory
-      </Text>
-
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          marginBottom: "20px",
-        }}
-      >
-        <Group spacing="md">
-          {departments.map((dept, index) => (
-            <Button
-              key={index}
-              style={{
-                fontSize: "14px",
-                backgroundColor:
-                  selectedDepartment === dept.value ? "#228BE6" : "white",
-                color: selectedDepartment === dept.value ? "white" : "black",
-                border: "1px solid #1366D9",
-              }}
-              onClick={() => setSelectedDepartment(dept.value)}
-              size="md"
-            >
-              {dept.label}
-            </Button>
-          ))}
-        </Group>
-      </div>
-
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          marginBottom: "20px",
-          gap: "10px",
-        }}
-      >
-        <Button
-          style={{ fontSize: "14px" }}
-          variant="filled"
-          color="blue"
-          onClick={openTransferProductModal}
-          size="md"
-        >
-          Transfer Item
-        </Button>
-
-        <Button
-          style={{ fontSize: "14px" }}
-          variant="filled"
-          color="blue"
-          size="md"
-          onClick={openAddProductModal}
-        >
-          Add Product
-        </Button>
-      </div>
-
-      <Paper
-        shadow={false}
-        p="lg"
-        style={{
+          marginTop: "20px",
+          maxWidth: "1200px",
+          maxHeight: "1000px",
+          backgroundColor: "white",
+          padding: "20px",
           borderRadius: "12px",
-          marginLeft: "190px",
-          backgroundColor: "transparent",
-          boxShadow: "none",
         }}
       >
-        <div style={{ overflowX: "auto" }}>
-          <Table striped highlightOnHover verticalSpacing="md">
-            <thead>
-              <tr>
-                <th style={{ fontSize: "24px", padding: "16px" }}>Item</th>
-                <th style={{ fontSize: "24px", padding: "16px" }}>Quantity</th>
-              </tr>
-            </thead>
-            <tbody>
-              {loading ? (
+        <Text
+          align="center"
+          style={{
+            fontSize: "26px",
+            marginBottom: "20px",
+            fontWeight: 600,
+            color: "#228BE6",
+          }}
+        >
+          {selectedDepartment} Inventory
+        </Text>
+
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginBottom: "20px",
+          }}
+        >
+          <Group spacing="md">
+            {departments.map((dept, index) => (
+              <Button
+                key={index}
+                style={{
+                  fontSize: "14px",
+                  backgroundColor:
+                    selectedDepartment === dept.value ? "#228BE6" : "white",
+                  color: selectedDepartment === dept.value ? "white" : "black",
+                  border: "1px solid #1366D9",
+                }}
+                onClick={() => setSelectedDepartment(dept.value)}
+                size="md"
+              >
+                {dept.label}
+              </Button>
+            ))}
+          </Group>
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginBottom: "20px",
+            gap: "10px",
+          }}
+        >
+          <Button
+            style={{ fontSize: "14px" }}
+            variant="filled"
+            color="blue"
+            onClick={openTransferProductModal}
+            size="md"
+          >
+            Transfer Item
+          </Button>
+
+          <Button
+            style={{ fontSize: "14px" }}
+            variant="filled"
+            color="blue"
+            size="md"
+            onClick={openAddProductModal}
+          >
+            Add Product
+          </Button>
+        </div>
+
+        <Paper
+          shadow={false}
+          p="lg"
+          style={{
+            borderRadius: "12px",
+            marginLeft: "190px",
+            backgroundColor: "transparent",
+            boxShadow: "none",
+          }}
+        >
+          <div style={{ overflowX: "auto" }}>
+            <Table striped highlightOnHover verticalSpacing="md">
+              <thead>
                 <tr>
-                  <td colSpan={2} style={{ textAlign: "center" }}>
-                    Loading data...
-                  </td>
+                  <th style={{ fontSize: "24px", padding: "16px" }}>Item</th>
+                  <th style={{ fontSize: "24px", padding: "16px" }}>Quantity</th>
                 </tr>
-              ) : (
-                inventoryData.map((item, index) => (
-                  <tr key={index}>
-                    <td
-                      style={{
-                        padding: "16px",
-                        fontSize: "14px",
-                        textAlign: "center",
-                      }}
-                    >
-                      {item.item_name} {/* Change 'product' to 'item' */}
-                    </td>
-                    <td
-                      style={{
-                        padding: "16px",
-                        fontSize: "14px",
-                        textAlign: "center",
-                      }}
-                    >
-                      {item.quantity}
+              </thead>
+              <tbody>
+                {loading ? (
+                  <tr>
+                    <td colSpan={2} style={{ textAlign: "center" }}>
+                      Loading data...
                     </td>
                   </tr>
-                ))
-              )}
-            </tbody>
-          </Table>
-        </div>
-      </Paper>
+                ) : (
+                  inventoryData.map((item, index) => (
+                    <tr key={index}>
+                      <td
+                        style={{
+                          padding: "16px",
+                          fontSize: "14px",
+                          textAlign: "center",
+                        }}
+                      >
+                        {item.item_name} {/* Change 'product' to 'item' */}
+                      </td>
+                      <td
+                        style={{
+                          padding: "16px",
+                          fontSize: "14px",
+                          textAlign: "center",
+                        }}
+                      >
+                        {item.quantity}
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </Table>
+          </div>
+        </Paper>
 
-      {showAddProductModal && (
-        <>
-          <div
-            style={{
-              position: "fixed",
-              top: 0,
-              left: 0,
-              width: "100vw",
-              height: "100vh",
-              backgroundColor: "rgba(0, 0, 0, 0.5)",
-              zIndex: 1000,
-              overflow: "hidden",
-            }}
-            role="button"
-            tabIndex={0}
-            onClick={closeAddProductModal}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === " ") {
-                closeAddProductModal();
-              }
-            }}
-            aria-label="Close Add Item Modal Background"
-          />
-
-          <div
-            style={{
-              position: "fixed",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              width: "80%",
-              maxWidth: "600px",
-              backgroundColor: "#fff",
-              boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-              borderRadius: "8px",
-              zIndex: 1001,
-              overflow: "hidden",
-            }}
-          >
-            <button
+        {showAddProductModal && (
+          <>
+            <div
               style={{
-                position: "absolute",
-                top: "10px",
-                right: "10px",
-                backgroundColor: "transparent",
-                border: "none",
-                fontSize: "16px",
-                cursor: "pointer",
+                position: "fixed",
+                top: 0,
+                left: 0,
+                width: "100vw",
+                height: "100vh",
+                backgroundColor: "rgba(0, 0, 0, 0.5)",
+                zIndex: 1000,
+                overflow: "hidden",
               }}
+              role="button"
+              tabIndex={0}
               onClick={closeAddProductModal}
-              aria-label="Close Modal"
-            >
-              X
-            </button>
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  closeAddProductModal();
+                }
+              }}
+              aria-label="Close Add Item Modal Background"
+            />
 
             <div
               style={{
-                margin: "-80px 0 -65px 0",
-                height: "835px",
+                position: "fixed",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                width: "80%",
+                maxWidth: "600px",
+                backgroundColor: "#fff",
+                boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                borderRadius: "8px",
+                zIndex: 1001,
                 overflow: "hidden",
               }}
             >
-              <AddProduct
-                onSuccess={closeAddProductModal}
-                selectedDepartment={selectedDepartment}
-                val="sections"
-                name="section_name"
-              />
+              <button
+                style={{
+                  position: "absolute",
+                  top: "10px",
+                  right: "10px",
+                  backgroundColor: "transparent",
+                  border: "none",
+                  fontSize: "16px",
+                  cursor: "pointer",
+                }}
+                onClick={closeAddProductModal}
+                aria-label="Close Modal"
+              >
+                X
+              </button>
+
+              <div
+                style={{
+                  margin: "-80px 0 -65px 0",
+                  height: "835px",
+                  overflow: "hidden",
+                }}
+              >
+                <AddProduct
+                  onSuccess={closeAddProductModal}
+                  selectedDepartment={selectedDepartment}
+                  val="sections"
+                  name="section_name"
+                />
+              </div>
             </div>
-          </div>
-        </>
-      )}
+          </>
+        )}
 
-      {showTransferProductModal && (
-        <>
-          <div
-            style={{
-              position: "fixed",
-              top: 0,
-              left: 0,
-              width: "100vw",
-              height: "100vh",
-              backgroundColor: "rgba(0, 0, 0, 0.5)",
-              zIndex: 1000,
-              overflow: "hidden",
-            }}
-            role="button"
-            tabIndex={0}
-            onClick={closeTransferProductModal}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === " ") {
-                closeTransferProductModal();
-              }
-            }}
-            aria-label="Close Transfer Item Modal Background"
-          />
-
-          <div
-            style={{
-              position: "fixed",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              width: "80%",
-              maxWidth: "600px",
-              backgroundColor: "#fff",
-              boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
-              borderRadius: "8px",
-              zIndex: 1001,
-              overflow: "hidden",
-            }}
-          >
-            <button
+        {showTransferProductModal && (
+          <>
+            <div
               style={{
-                position: "absolute",
-                top: "10px",
-                right: "10px",
-                backgroundColor: "transparent",
-                border: "none",
-                fontSize: "16px",
-                cursor: "pointer",
+                position: "fixed",
+                top: 0,
+                left: 0,
+                width: "100vw",
+                height: "100vh",
+                backgroundColor: "rgba(0, 0, 0, 0.5)",
+                zIndex: 1000,
+                overflow: "hidden",
               }}
+              role="button"
+              tabIndex={0}
               onClick={closeTransferProductModal}
-              aria-label="Close Modal"
-            >
-              X
-            </button>
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  closeTransferProductModal();
+                }
+              }}
+              aria-label="Close Transfer Item Modal Background"
+            />
 
             <div
               style={{
-                margin: "-80px 0 -65px 0",
-                height: "835px",
+                position: "fixed",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                width: "80%",
+                maxWidth: "600px",
+                backgroundColor: "#fff",
+                boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                borderRadius: "8px",
+                zIndex: 1001,
                 overflow: "hidden",
               }}
             >
-              <TransferProduct
-                onSuccess={closeTransferProductModal}
-                selectedDepartment={selectedDepartment}
-              />
+              <button
+                style={{
+                  position: "absolute",
+                  top: "10px",
+                  right: "10px",
+                  backgroundColor: "transparent",
+                  border: "none",
+                  fontSize: "16px",
+                  cursor: "pointer",
+                }}
+                onClick={closeTransferProductModal}
+                aria-label="Close Modal"
+              >
+                X
+              </button>
+
+              <div
+                style={{
+                  margin: "-80px 0 -65px 0",
+                  height: "835px",
+                  overflow: "hidden",
+                }}
+              >
+                <TransferProduct
+                  onSuccess={closeTransferProductModal}
+                  selectedDepartment={selectedDepartment}
+                />
+              </div>
             </div>
-          </div>
-        </>
-      )}
-    </Container>
+          </>
+        )}
+      </Container>
+    </>
   );
 }
