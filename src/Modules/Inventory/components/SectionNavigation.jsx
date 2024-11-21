@@ -16,7 +16,6 @@ import InventoryRequests from "./InventoryRequests";
 const sections = [
   "Overall Inventory",
   "Section",
-  "Reports",
   "Department",
   "Requests",
 ];

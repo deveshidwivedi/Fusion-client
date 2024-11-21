@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import "../styles/addProduct.css";
 
-function AddProduct({ onSuccess, selectedDepartment }) {
+function AddProduct({ onSuccess, selectedDepartment, val, name }) {
   const [formData, setFormData] = useState({
     productName: "",
     quantity: "",
@@ -30,7 +30,7 @@ function AddProduct({ onSuccess, selectedDepartment }) {
 
     try {
       const response = await fetch(
-        "http://127.0.0.1:8000/inventory/api/departments/",
+        `http://127.0.0.1:8000/inventory/api/${val}/`,
         {
           method: "POST",
           headers: {
@@ -40,7 +40,8 @@ function AddProduct({ onSuccess, selectedDepartment }) {
           body: JSON.stringify({
             item_name: formData.productName,
             quantity: parseInt(formData.quantity, 10), // Add radix parameter
-            department_name: selectedDepartment,
+            // department_name: selectedDepartment,
+            [name]: selectedDepartment,
           }),
         },
       );
