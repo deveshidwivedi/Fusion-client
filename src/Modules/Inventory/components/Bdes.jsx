@@ -257,6 +257,8 @@ export default function Inventory() {
               <AddProduct
                 onSuccess={closeAddProductModal}
                 selectedDepartment={selectedDepartment}
+                val="departments"
+                name="department_name"
               />
             </div>
           </div>

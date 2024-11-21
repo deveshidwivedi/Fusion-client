@@ -38,7 +38,7 @@ export default function HostelInventory() {
 
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/inventory/api/departments/?section=${selectedDepartment}`,
+        `http://127.0.0.1:8000/inventory/api/sections/?section=${selectedDepartment}`,
         {
           method: "GET",
           headers: {
@@ -55,7 +55,7 @@ export default function HostelInventory() {
       setInventoryData(data);
       setLoading(false);
     } catch (error) {
-      console.error("Error fetching department data:", error);
+      console.error("Error fetching department data: ", error);
       setLoading(false);
     }
   };
@@ -268,6 +268,8 @@ export default function HostelInventory() {
               <AddProduct
                 onSuccess={closeAddProductModal}
                 selectedDepartment={selectedDepartment}
+                val="sections"
+                name="section_name"
               />
             </div>
           </div>
